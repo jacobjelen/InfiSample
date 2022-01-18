@@ -1,35 +1,58 @@
-# electron-quick-start
+# InfiSample
 
-**Clone and run for a quick way to see Electron in action.**
+This demo software should acompany Infi-tex printed pressure sensor sample sheets. For orders and more information visit [Infi-tex.com](http://www.infi-tex.com/)
 
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/latest/tutorial/quick-start) within the Electron documentation.
+### References
+I started with [electron-quick-start](https://github.com/electron/electron-quick-start) following [this tutorial](https://girishjoshi.io/post/access-serialport-from-electron-application-and-creating-gui-for-micropython-repl-on-esp8266/). 
 
-**Use this app along with the [Electron API Demos](https://electronjs.org/#get-started) app for API code examples to help you get started.**
+However, it did not work you can't call 'native Node modules' (such as serialport) with newer versions of Electron (after July 2021). So versions mentioned in [this StackOverflow answer](https://stackoverflow.com/questions/50860088/getting-electron-to-work-with-nodes-bluetooth-serial-port/56856773#56856773) by tousisat were used.
 
-A basic Electron application needs just these files:
+This was built and tested on: 
+- MacOS Catalina v10.15.7
+- Node.js v16.1.0
+- January 2022
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
+### NPM Dependecies
+- Electron 4.2.6, 
+- Electron Rebuild 1.8.5
+- serialport 9.2.8
 
-You can learn more about each of these components within the [Quick Start Guide](https://electronjs.org/docs/latest/tutorial/quick-start).
 
-## To Use
-
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
-
+### Original Setup (what I did)
+1. from terminal
 ```bash
 # Clone this repository
 git clone https://github.com/electron/electron-quick-start
+
 # Go into the repository
 cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
-```
 
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+# Install dependencies
+npm install --save-dev electron@4.2.6 
+npm install --save-dev  electron-rebuild@1.8.5
+npm install --save serialport@9.2.8
+npm install 
+```
+2. add this script to your *package.json*: `"scripts":{"rebuild": "electron-rebuild"}`
+3. In *main.js* add `app.allowRendererProcessReuse = false;`. Also while creating the BrowserWindow, modify webPreferences to.
+```bash
+webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false
+}
+```
+4. Modify *index.thml* to match your serial port and baud rate settings... 
+```var sp = new serialPort('/dev/ttyUSB0', {
+    baudRate: 115200,
+});```
+
+5. Run the app
+```npm start```
+
+
+
+
 
 ## Resources for Learning Electron
 

@@ -2,18 +2,65 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
-    <link href="./styles.css" rel="stylesheet">
-    <title>Hello World!</title>
+    <title>Electron based gui for micropython REPL over serialport!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+    <h1>Serial terminal</h1>
+     <textarea rows="30" cols="50" id="incomingData"></textarea>
+     </br>
+     <textarea rows="1" cols="50" id="inputText"></textarea>
+     </br>
+     <input id="button" type="submit" name="button" value="Ctrl+c"/>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+    <script>
+
+        //load serialport module
+        serialPort = require('serialport');
+        const Readline = serialPort.parsers.Readline;
+
+        //initialize serialport with 115200 baudrate.
+        var sp = new serialPort('/dev/cu.usbmodem14201', { baudRate: 9600 });
+        
+        //parse incoming data line-by-line from serial port.
+        const parser = sp.pipe(new Readline({ delimiter: '\r\n' }));
+        parser.on('data', addText);
+
+        //append incoming data to the textarea.
+        function addText(event) {
+            document.getElementById("incomingData").value += "\n"+event;
+        }
+    
+        function writeonSer(data){
+            //Write the data to serial port.
+            sp.write( data, function(err) {
+                if (err) {
+                    return console.log('Error on write: ', err.message);
+                }
+                console.log('message written');
+            });
+    
+        }
+    
+        document.getElementById('inputText').onkeypress = function(e){
+            if (!e) e = window.event;
+            var keyCode = e.keyCode || e.which;
+            //write the data to serial when enter key is pressed.
+            if (keyCode == '13'){
+                //console.log("enter pressed", document.getElementById("inputText").value);
+                writeonSer(document.getElementById("inputText").value+"\r\n");
+                document.getElementById('inputText').value = "";
+                return false;
+            }
+        }
+    
+        document.getElementById('button').onclick = function(e){
+            //send ctrl+c to serialport
+            writeonSer('\x03');
+        }
+    </script>
+    <script>
+        // You can also require other files to run in this process
+        require('./renderer.js')
+    </script>
   </body>
 </html>
