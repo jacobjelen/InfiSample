@@ -27,9 +27,9 @@ This was built and tested on:
 - January 2022
 
 ### NPM Dependecies
-- Electron 4.2.6, 
-- Electron Rebuild 1.8.5
-- serialport 9.2.8
+- Electron 13.6.7 (latest that works with this!!!!!)
+- Electron Rebuild 3.2.7 (latest at the time of writing)
+- serialport 9.2.8  (latest at the time of writing)
 
 
 ### Setup from scratch
@@ -42,8 +42,8 @@ git clone https://github.com/electron/electron-quick-start
 cd electron-quick-start
 
 # Install dependencies
-npm install --save-dev electron@4.2.6 
-npm install --save-dev  electron-rebuild@1.8.5
+npm install --save-dev electron@13.6.7
+npm install --save-dev  electron-rebuild@3.2.7
 npm install --save serialport@9.2.8
 npm install 
 ```
