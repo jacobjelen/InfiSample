@@ -19,8 +19,6 @@ Also in your terminal: npm install --save bluetooth-serial-port. My version is 2
 add this script to your package.json: "scripts":{"rebuild": "electron-rebuild"}
 
 In your terminal: npm install and then npm run rebuild
-
-
 ```
 
 This was built and tested on: 
@@ -34,7 +32,7 @@ This was built and tested on:
 - serialport 9.2.8
 
 
-### Original Setup (what I did)
+### Setup from scratch
 1. from terminal
 ```bash
 # Clone this repository
@@ -50,7 +48,8 @@ npm install --save serialport@9.2.8
 npm install 
 ```
 2. add this script to your *package.json*: `"scripts":{"rebuild": "electron-rebuild"}`
-3. In *main.js* add `app.allowRendererProcessReuse = false;`. Also while creating the BrowserWindow, modify webPreferences to.
+3. ```npm run rebuild```
+4. In *main.js* add `app.allowRendererProcessReuse = false;`. Also while creating the BrowserWindow, modify webPreferences to.
 ```bash
 webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -58,26 +57,12 @@ webPreferences: {
       contextIsolation: false
 }
 ```
-4. Modify *index.thml* to match your serial port and baud rate settings... 
+5. Modify *index.thml* to match your serial port and baud rate settings... 
 ```var sp = new serialPort('/dev/ttyUSB0', {
     baudRate: 115200,
-});```
+});
+```
 
-5. Run the app
+6. Run the app
 ```npm start```
 
-
-
-
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [electronjs.org/community#boilerplates](https://electronjs.org/community#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
-
-## License
-
-[CC0 1.0 (Public Domain)](LICENSE.md)
