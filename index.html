@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
+    
     <head>
         <meta charset="UTF-8">
         <title>Infi-tex Sample</title>
-
-        <script>
-            // You can also require other files to run in this process
-            require('./myScripts/mySerial.js')
-        </script>
-
+        <link rel="stylesheet" href="styles.css">
+        <script src='./myScripts/mySerial.js'></script>
     </head>
+    
     <body>
         <h1 id='title'>Serial terminal</h1>
 
-        <select id="ports" onchange="setPort()"></select>
+        <select id="portSelect" onchange="changePort()"></select>
 
     </body>
-    
+
 </html>
