@@ -1,0 +1,8 @@
+TO DO:
+
++ setup ESLint
+- structure the functions
+	- wrap a function around the thing that sets up serial and parser
+- add react (electron react boiler plate)
+- try newer versions of electron, see if serial works...
+
