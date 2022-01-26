@@ -22,9 +22,7 @@ function changePort () {
   const selectedPort = document.getElementById('portSelect').value
 
   if (port.isOpen) {
-    console.log(1)
     port.close(() => {
-      console.log(2)
       setPort(selectedPort)
     })
   } else {
