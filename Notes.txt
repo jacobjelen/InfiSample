@@ -4,5 +4,8 @@ TO DO:
 + structure the functions
 	- wrap a function around the thing that sets up serial and parser
 - add react (electron react boiler plate)
-- try newer versions of electron, see if serial works...
++ try newer versions of electron, see if serial works...
 
+- how to SVG to HMTL
+- layout - make responsive using %
+- select port dropdown using option value attribute

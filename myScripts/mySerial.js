@@ -18,24 +18,22 @@ SerialPort.list().then(ports => {
 // FUNCTIONS ///////////////////////////////////////////////////////////////
 
 // Change port based on user selection
-function changePort () {
+async function changePort (t) {
+  console.log(t)
   const selectedPort = document.getElementById('portSelect').value
 
-  if (port.isOpen) {
-    port.close(() => {
-      setPort(selectedPort)
-    })
-  } else {
-    setPort(selectedPort)
-  }
+  if (port.isOpen) await port.close() // if port is open, close it before moving on
+  setPort(selectedPort)
 }
 
 // set port
-function setPort (newPort) {
+async function setPort (newPort) {
+  if (port && port.isOpen) await port.close() // if port is open, close it before moving on
+
   port = new SerialPort(newPort, { baudRate: 9600 })
 
   port.on('open', () => {
-    console.log('serial port open')
+    console.log('serial open: ' + port.path)
     port.flush()
 
     // update parser object
@@ -45,6 +43,4 @@ function setPort (newPort) {
       document.getElementById('title').innerHTML = data
     })
   })
-
-  console.log(port.path + ' open: ' + port.isOpen)
 }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Infi-tex Sample</title>
+        <link rel="stylesheet" href="testStyle.css">
+    </head>
+
+    <body>
+        <main id="container">
+fgsdfg
+
+                    <!-- PAD COLUMN -->
+                    <!-- <div class="column" id="left">
+                        <div class="pad-proportions">
+                            <div id="multitouch" class="pad-inside">
+
+                            </div>
+                        </div>
+
+                        <div id="force-pad" class="pad"></div>
+                    </div> -->
+
+                    <!-- BUTTON COLUMN -->
+                    <!-- <div class="column" id="right">
+                        <div id="keypad-proportions">
+                            <div id="keypad">
+                                <div id="kp_7">7</div><div id="kp_8">8</div><div
+                                    id="kp_9">9</div>
+                                <div id="kp_4">4</div><div id="kp_5">5</div><div
+                                    id="kp_6">6</div>
+                                <div id="kp_1">1</div><div id="kp_2">2</div><div
+                                    id="kp_3">3</div>
+                                <div id="kp_0">0</div><div id="kp_10">.</div>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+
+        </main>
+
+        width: <span id="sc-w"> </span>
+        <br>
+        height: <span id="sc-h"> </span>
+    </body>
+
+</html>
+
+<script>
+// window.addEventListener('load', resizeMain);
+// window.addEventListener('resize', resizeMain);
+
+function resizeMain(){
+    //initial size = ratio to maintain
+    const contWidht = 400;
+    const contHeight = 200;
+
+    const cont = document.getElementById("container")
+    
+    //get current window size
+    const windowWidth = window.visualViewport.width
+    const windowHeight = window.visualViewport.height
+
+    const multiplier = 0.8      // instead of margin. portion of the width or height filled by container
+    const winRatio = windowWidth / windowHeight
+    const contRatio = contWidht / contHeight
+    let newWidth, newHeight
+
+    if (contRatio >= winRatio){ 
+        // window WIDTH deciding the size
+        cont.style.backgroundColor = "green";
+        newWidth = windowWidth * multiplier
+        newHeight = newWidth / contRatio
+    
+    } else {    
+        // window HEIGHT deciding the size
+        cont.style.backgroundColor = "blue";
+        newHeight = windowHeight * multiplier
+        newWidth = newHeight * contRatio
+    }
+
+    cont.style.width = newWidth+"px";
+    cont.style.height = newHeight+"px";        
+        
+}
+
+</script>
