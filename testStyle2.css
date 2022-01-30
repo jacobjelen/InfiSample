@@ -1,85 +1,59 @@
 :root{
   --main-color: white;
   --highlight-color: red;
-  --bg-color: orange;
+  --bg-color: #666666;
 
-
+  /* set by resize.js */
+  --border-width: 1px;
+  --font-size: 9px;
 
   color:var(--main-color);
   background-color:var(--bg-color);
-
-  /* responsive font size based on viewport height */
-  font-size: 2vw;
-
-  /* responsive font size based on viewport height */
-  --border-width: 0.2vw;
-  box-sizing: border-box;
+  font-size: var(--font-size);
 
   font-family: "DINPro",sans-serif;
-  
-
+  font-weight: 400;
 }
 
-body{
-
+.line{
+  box-sizing: border-box; /* to have the border line on the div inside */
+  border-style: solid;  
+  border-width: var(--border-width);
+  border-color: var(--main-color);
 }
 
 #container{
   width: 900px;
   height: 666px;
 
-  margin-inline: auto;   
   background: gray;
 
   display: grid;
-  grid-template-columns: 70% 30%;
-  gap: 12%;
+  grid-template-columns: 65% 25%;
+  gap: 10% ;
+
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
 }
 
 
 /* PAD COLUMN */
 
-.column{
-  /* border: 1px solid black; */
-}
-
-/* #left{
-  background: #333333;
-}
-#gap{
-  background: #555555;
-}
-#right{
-  background: #777777;
-} */
-
-.pad-proportions{
-  background: red;
-  /* width: 100%;
-  padding-top: 54.5%;
-  
-  border-top: 1px solid white;
-  box-sizing: border-box; */
-}
-
-.pad-inside{
-  /* position: relative; */
+.pad{
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  border-top: 1px solid white;
-  box-sizing: border-box;
-
+  height: 47%;
 }
 
-#multitouch{
-  background: purple;
+.pad-below{
+height: 6%
 }
 
-#forcepad{
-  background: pink;
-}
 
 
 /* KEYPAD */
@@ -134,6 +108,7 @@ body{
 
 #kp_0{
   grid-column: span 2;
+  padding-left: 55%;
   border-radius: calc(var(--button-radius)/2)/var(--button-radius) !important;
 }
 

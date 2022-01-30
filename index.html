@@ -9,17 +9,68 @@
     </head>
 
     <body>
-        <h1 id='title'>Serial terminal</h1>
+        <!-- TOP BAR -->
+        <div id="topBar">
+            <h1 id='title'>Serial terminal</h1>
+            <select id="portSelect" onchange="changePort(this.value)"></select>
 
-        <select id="portSelect" onchange="changePort(this.value)"></select>
+            <p id="notSupported" style="display:none;">
+                webserial is not detected. please enable it.
+                <a href="chrome://flags/#enable-experimental-web-platform-features">chrome://flags/#enable-experimental-web-platform-features</a>
+            </p>
+    
+            <button id="connect">connect</button>
+            
+        </div>
+        
 
 
-        <p id="notSupported" style="display:none;">
-            webserial is not detected. please enable it.
-            <a href="chrome://flags/#enable-experimental-web-platform-features">chrome://flags/#enable-experimental-web-platform-features</a>
-        </p>
+        <!-- MAIN -->
 
-        <button id="connect">connect</button>
+        <main id="container">
+            <!-- PAD COLUMN -->
+            <div class="column" id="left">
+                <div class="pad-proportions">
+
+                    <!-- MULTI-TOUCH -->
+                    <div id="multitouch" class="pad-inside">
+
+                    </div>
+                </div>
+
+                <!-- FORCEPAD -->
+                <div id="force-pad" class="pad"></div>
+            </div>
+
+            <!-- BUTTON COLUMN -->
+            <div class="column" id="right">
+
+                <!-- KEYPAD -->
+                <div id="keypad-proportions">
+                    <div id="keypad">
+                        <div id="kp_7">7</div><div id="kp_8">8</div><div
+                            id="kp_9">9</div>
+                        <div id="kp_4">4</div><div id="kp_5">5</div><div
+                            id="kp_6">6</div>
+                        <div id="kp_1">1</div><div id="kp_2">2</div><div
+                            id="kp_3">3</div>
+                        <div id="kp_0">0</div><div id="kp_10">.</div>
+                    </div>
+                </div>
+
+
+                <!-- SLIDER -->
+
+                <!-- ON / OFF -->
+            </div>
+        </main>
+
+
+
+
+
+
+
 
         <div id="content">
 
