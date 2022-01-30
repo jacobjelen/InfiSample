@@ -1,0 +1,80 @@
+main{
+  width: var(--main-width);
+  height: var(--main-height);
+
+  background: gray;
+
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.container {  display: grid;
+  grid-template-columns: 65% 10% 25%;
+  grid-template-rows: 45% 5% 45% 5fr;
+  gap: 0% 0%;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "multitouch . keypad"
+    "multitouch-label . keypad-label"
+    "forcepad . bottomRight"
+    "forcepad-label . bottomRight-label";
+}
+
+.multitouch-box { grid-area: multitouch; }
+
+.keypad-box { grid-area: keypad; }
+
+.multitouch-label { grid-area: multitouch-label; }
+
+.forcepad-box { grid-area: forcepad; }
+
+.forcepad-label { grid-area: forcepad-label; }
+
+.keypad-label { grid-area: keypad-label; }
+
+.bottomRight-box {  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "sliderDiv sliderDiv"
+    "powerDiv qrDiv";
+  grid-area: bottomRight;
+}
+
+.slider-box { grid-area: sliderDiv; }
+
+.power-box { grid-area: powerDiv; }
+
+.qr-box { grid-area: qrDiv; }
+
+.bottomRight-label { grid-area: bottomRight-label; }
+
+
+html, body , .container {
+  height: 100%;
+  margin: 0;
+}
+
+/* For presentation only, no need to copy the code below */
+
+.container * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.container *:after {
+  content:attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
