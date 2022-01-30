@@ -7,7 +7,7 @@ function resizeMain () {
   const contHeight = 666
   const multiplier = 0.9 // instead of margin. portion of the width or height filled by container
 
-  const cont = document.getElementById('container')
+  const cont = document.getElementById('main')
 
   // get current window size
   const windowWidth = window.visualViewport.width
@@ -37,8 +37,8 @@ function resizeMain () {
   document.documentElement.style.setProperty('--main-width', newWidth + 'px')
   document.documentElement.style.setProperty('--main-height', newHeight + 'px')
 
-  document.documentElement.style.setProperty('--border-width', newWidth * 0.002 + 'px')
-  document.documentElement.style.setProperty('--keypad-font-size', newWidth * 0.03 + 'px')
-  document.documentElement.style.setProperty('--label-font-size', newWidth * 0.018 + 'px')
+  // document.documentElement.style.setProperty('--border-width', newWidth * 0.002 + 'px')
+  // document.documentElement.style.setProperty('--keypad-font-size', newWidth * 0.03 + 'px')
+  // document.documentElement.style.setProperty('--label-font-size', newWidth * 0.018 + 'px')
   
 }
