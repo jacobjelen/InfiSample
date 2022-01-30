@@ -1,8 +1,10 @@
 TO DO:
 
-- resize function
-	- font size
-	- border
+- powerlink grid
+- right column style
+- power button svg from illustrator
+- labels
+- top bar popup
 
 - arduino dummy code
 

@@ -5,48 +5,59 @@
         <meta charset="UTF-8">
         <title>Infi-tex Sample</title>
         <link rel="stylesheet" href="styles.css">
+
+        <!-- SCRIPTS -->
         <script src='./myScripts/mySerial.js'></script>
+        <script src='./myScripts/resize.js'></script>
     </head>
 
     <body>
         <!-- TOP BAR -->
         <div id="topBar">
-            <h1 id='title'>Serial terminal</h1>
-            <select id="portSelect" onchange="changePort(this.value)"></select>
+            <span id='title'>Serial terminal</span>
 
+            <select id="portSelect" onchange="changePort(this.value)"></select>
             <p id="notSupported" style="display:none;">
                 webserial is not detected. please enable it.
-                <a href="chrome://flags/#enable-experimental-web-platform-features">chrome://flags/#enable-experimental-web-platform-features</a>
+                <a
+                    href="chrome://flags/#enable-experimental-web-platform-features">chrome://flags/#enable-experimental-web-platform-features</a>
             </p>
-    
+
             <button id="connect">connect</button>
-            
         </div>
-        
 
-
-        <!-- MAIN -->
+        <div id="settingsButton">sets</div>
 
         <main id="container">
             <!-- PAD COLUMN -->
             <div class="column" id="left">
-                <div class="pad-proportions">
 
-                    <!-- MULTI-TOUCH -->
-                    <div id="multitouch" class="pad-inside">
+                <!-- MULTI-TOUCH -->
+                <div id="multitouch" class="pad line">
 
-                    </div>
+                </div>
+                <div class="pad-below">
+
                 </div>
 
                 <!-- FORCEPAD -->
-                <div id="force-pad" class="pad"></div>
+                <div id="forcepad" class="pad line">
+
+                </div>
+
+
             </div>
+
+
 
             <!-- BUTTON COLUMN -->
             <div class="column" id="right">
 
+
+
                 <!-- KEYPAD -->
                 <div id="keypad-proportions">
+
                     <div id="keypad">
                         <div id="kp_7">7</div><div id="kp_8">8</div><div
                             id="kp_9">9</div>
@@ -58,62 +69,51 @@
                     </div>
                 </div>
 
+                <div class="label">Keypad</div>
+
 
                 <!-- SLIDER -->
+                <div id="sliderDiv">
+                    <input id="slider" type="range" min="0" max="255" value="0"
+                        disabled="true" />
+                </div>
 
-                <!-- ON / OFF -->
-            </div>
-        </main>
+                <div class="label" id="sliderLabelDiv">Slider</div>
 
+                <!-- POWER & LINK -->
+                <div id="bottomRightGrid">
 
+                    <div class="powerDiv">
+                        
+                        <svg id="power" version="1.2" baseProfile="tiny"
+                            x="0px" y="0px" width="88px" height="101px"
+                            viewBox="-0.8 -0.5 177 202" xml:space="preserve">
+                            <defs>
+                            </defs>
+                            <path fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round"
+                                d="M33.7,64.3C22.1,77.2,15,94.3,15,113
+                                c0,40.1,32.5,72.7,72.7,72.7c40.1,0,72.7-32.5,72.7-72.7c0-18.7-7.1-35.8-18.7-48.7"
+                                />
+                                <line fill="none" stroke="#ffffff"
+                                    stroke-width="4" stroke-linecap="round"
+                                    x1="87.8" y1="15" x2="87.8" y2="113" />
+                                </svg>
+                        
+                    </div>
+                    <div class="QR">qr</div>
 
+                    <div class="powerLabel">Switch</div>
+                    
+                    <div class="logo">
+                        
+                        <img src="imgs/logo-infi-tex.svg">
 
-
-
-
-
-        <div id="content">
-
-            <div id="mat"><!-- auto generatred by js --></div>
-
-            <div id="keypad">
-                <div id="kp_7">7</div><div id="kp_8">8</div><div id="kp_9">9</div>
-                <div id="kp_4">4</div><div id="kp_5">5</div><div id="kp_6">6</div>
-                <div id="kp_1">1</div><div id="kp_2">2</div><div id="kp_3">3</div>
-                <div id="kp_0">0</div><div id="kp_10">.</div>
-            </div>
-
-            <div id="touchpad">
-                <div class="tp_foot">Y-</div>
-                <div class="tp_head">Y+</div>
-                <div class="tp_left">X-</div>
-                <div class="tp_right">X+</div>
-                <div class="tp_canvas"><canvas id="tp" width=548 height=296></canvas></div>
-            </div>
-
-            <div>
-                <input id="slider" type="range" min="0" max="255" value="0"
-                    disabled="true" />
-            </div>
-
-            <div>
-                <svg id="power" version="1.2" baseProfile="tiny"
-                    x="0px" y="0px" width="88px" height="101px" viewBox="-0.8
-                    -0.5 177 202" xml:space="preserve">
-                    <defs>
-                    </defs>
-                    <path fill="none" stroke="#000000" stroke-width="4"
-                        stroke-linecap="round"
-                        d="M33.7,64.3C22.1,77.2,15,94.3,15,113
-                        c0,40.1,32.5,72.7,72.7,72.7c40.1,0,72.7-32.5,72.7-72.7c0-18.7-7.1-35.8-18.7-48.7"
-                        />
-                        <line fill="none" stroke="#000000" stroke-width="4"
-                            stroke-linecap="round" x1="87.8" y1="15" x2="87.8"
-                            y2="113" />
-                        </svg>
                     </div>
 
-                </div>
-            </body>
 
-        </html>
+                </div>
+            </main>
+
+        </body>
+    </html>

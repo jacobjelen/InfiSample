@@ -33,11 +33,12 @@ function resizeMain () {
   cont.style.width = newWidth + 'px'
   cont.style.height = newHeight + 'px'
 
-  document.documentElement.style.setProperty('--border-width', newWidth * 0.002 + 'px')
-  document.documentElement.style.setProperty('--font-size', newWidth * 0.03 + 'px')
-  // document.documentElement.style.setProperty('--main-color', 'pink')
-  // document.body.style.fontSize = newWidth * 0.03 + 'px'
-  // document.body.style.borderWidth = newWidth + 'px'
+  //update CSS variables
+  document.documentElement.style.setProperty('--main-width', newWidth + 'px')
+  document.documentElement.style.setProperty('--main-height', newHeight + 'px')
 
-//   cont.style.display = 'block'
+  document.documentElement.style.setProperty('--border-width', newWidth * 0.002 + 'px')
+  document.documentElement.style.setProperty('--keypad-font-size', newWidth * 0.03 + 'px')
+  document.documentElement.style.setProperty('--label-font-size', newWidth * 0.018 + 'px')
+  
 }

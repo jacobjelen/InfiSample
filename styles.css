@@ -1,37 +1,129 @@
-button.error {
-	background-color: red;
+:root{
+  --main-color: white;
+  --highlight-color: red;
+  --bg-color: #666666;
+
+  /* set by resize.js */
+  --border-width: 1px;
+  --keypad-font-size: 9px;
+  --label-font-size: 5px;
+  --main-width: 900px;
+  --main-height: 666px;
+
+  color:var(--main-color);
+  background-color:var(--bg-color);
+  font-size: var(--label-font-size);
+
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
 }
-button.ok {
-	background-color: lime;
+/* GENERAL */
+.line{
+  box-sizing: border-box; /* to have the border line on the div inside */
+  border-style: solid;  
+  border-width: var(--border-width);
+  border-color: var(--main-color);
 }
 
-#content div {
-	padding: 16px;
-	float: left;
+.label{
+  padding: 10px 0px;
+  width: 100%;
 }
 
-#mat {
-  display: grid; 
-  grid-template-columns: 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px ; 
-  grid-template-rows: 48px 48px 48px 48px 48px 48px 48px; 
-  gap: 2px 2px; 
+/* TOP BAR */
+#topBar{
+  position:absolute;
+  z-index: 10;
+  width: 100%;
+  height: calc(var(--main-height)/10);
+  top: 0;
+  left: 0;
+  background-color: var(--highlight-color);
+
+  font-size: calc(var(--label-font-size));
+
+  display: block;
 }
 
-#mat .mat_cell {
-    border: 2px dotted rgb(255, 154, 162);
+#settingsButton{
+  position:absolute;
+  z-index:20;
+  right: 1%;
+  top: 0;
+}
+
+
+/* MAIN */
+
+main{
+  width: var(--main-width);
+  height: var(--main-height);
+
+  background: gray;
+
+  display: grid;
+  grid-template-columns: 65% 25%;
+  gap: 10% ;
+
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+
+
+/* PAD COLUMN */
+
+.pad{
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 47%;
+}
+
+.pad-below{
+top: calc(var(--main-height));
+height: 6%
+}
+
+
+
+/* KEYPAD */
+#keypad-proportions {
+  width: 100%;
+  padding-top: 133.3%;
+  position: relative;
+  background: #888;
 }
 
 #keypad {
+  /* variables */
+  --button-radius: 50%;
+  --gap: 8%;
+
+  /* keep everythign innside 'el-proportions' parent element */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+
   display: grid; 
-  grid-template-columns: 64px 64px 64px;
-  grid-template-rows: 64px 64px 64px 64px; 
-  gap: 8px 8px; 
+  grid-template-columns: repeat(3, calc( (100% - 2*var(--gap))/3));  /* calculates width % that each button takes, depending on gap variable. repets 3x for 3 button collumns*/
+  grid-template-rows: repeat(4, calc( (100% - 3*var(--gap))/4)); 
+  
+  gap: var(--gap) ;
 }
 
 #keypad div {
-    border-radius: 25px;
-    border: 2px solid #C7CEEA;
+    border-radius: var(--button-radius);
+    border: var(--border-width) solid var(--main-color);
     text-align: center;
+
+    font-size: var(--keypad-font-size);
 
     /* this 4 lines is what you need these days for vertical align */
     display: flex;
@@ -40,70 +132,123 @@ button.ok {
     flex-direction: column;
 }
 
-#touchpad {
-  display: grid; 
-  grid-template-columns: 48px auto 48px; 
-  grid-template-rows: 48px auto 48px; 
-  gap: 8px 8px; 
-  grid-template-areas: 
-    "head head head"
-    "left canvas right"
-    "foot foot foot"; 
+#kp_0{
+  grid-column: span 2;
+  padding-left: 55%;
+  border-radius: calc(var(--button-radius)/2)/var(--button-radius) !important;
 }
 
-#touchpad div {
-    text-align: center;
-
-    /* this 4 lines is what you need these days for vertical align */
-    display: flex;
-	justify-content: center;
-	align-content: center;
-	flex-direction: column;
-}
-
-.tp_foot { grid-area: foot; }
-.tp_head { grid-area: head; }
-.tp_left { grid-area: left; }
-.tp_right { grid-area: right; }
-.tp_canvas { grid-area: canvas;
-    border: 2px solid #B5EAD7;
-}
-
-#tp {
-	font-smooth: never;
-	-webkit-font-smoothing : none;
+#sliderDiv {
+  height: 19%;
+  /* padding-top: 30%; */
+  background: #555;
 }
 
 #slider {
   -webkit-appearance: none;
-  width: 200px;
-  height: 2px;
-  background: #FFDAC1;
-  outline: none;
-  opacity: 0.7;
+  width: 100%;
+  height: 0px;
+  
   -webkit-transition: .2s;
   transition: opacity .2s;
+
+  box-sizing: border-box; 
+  border-top: solid;  
+  border-width: var(--border-width);
+  border-color: var(--main-color);
 }
 
 #slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  border-radius: 25px;
-  border 2px solid 
+  border-radius: 50%;
+  border: var(--border-width) solid var(--main-color);
   appearance: none;
-  width: 32px;
-  height: 32px;
-  background: #FFDAC1;
+  width: calc( var(--main-width)*0.03 );
+  height: calc( var(--main-width)*0.03 );
+  background: var(--bg-color);
   cursor: pointer;
 }
 
-#slider::-moz-range-thumb {
-  width: 32px;
-  height: 32px;
-  border-radius: 25px;
-  background: #FFDAC1;
-  cursor: pointer;
+#sliderLabelDiv{
+  height:6%;
 }
 
-.power_filter {
-    invert(53%) sepia(97%) saturate(2102%) hue-rotate(157deg) brightness(89%) contrast(101%);
+/* POWER & LINK */
+#bottomRightGrid{
+  display: grid; 
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%; 
+
+  grid-template-areas: 
+    "powerDiv QR"
+    "powerLabel logo";
+}
+
+.powerDiv{
+  background: #111;
+}
+
+#power {
+    stroke-width: var(--border-width);
+    stroke: var(--main-color);
+}
+
+.powerLabel{
+  background: #222;
+}
+
+.QR{
+  background: #333;
+}
+
+.logo{
+  background: #444;
+}
+
+
+
+/* FONTS */
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Bold.woff2') format('woff2'),
+      url('../fonts/DINPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Medium.woff2') format('woff2'),
+      url('../fonts/DINPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Regular.woff2') format('woff2'),
+      url('../fonts/DINPro-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Black.woff2') format('woff2'),
+      url('../fonts/DINPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Light.woff2') format('woff2'),
+      url('../fonts/DINPro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
