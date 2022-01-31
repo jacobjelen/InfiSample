@@ -41,6 +41,9 @@ async function setPort (newPort) {
     parser.on('data', data => {
     // console.log('got word from arduino:', data);
       document.getElementById('title').innerHTML = data
+
+
+
     })
   })
 }

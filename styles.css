@@ -35,7 +35,7 @@
   position:absolute;
   z-index: 10;
   width: 100%;
-  height: calc(var(--main-height)/10);
+  /* height: calc(var(--main-height)/10); */
   top: 0;
   left: 0;
   background-color: var(--highlight-color);
