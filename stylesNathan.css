@@ -12,8 +12,8 @@ button.ok {
 
 #mat {
   display: grid; 
-  grid-template-columns: 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px ; 
-  grid-template-rows: 48px 48px 48px 48px 48px 48px 48px; 
+  grid-template-columns: 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px 48px ; 
+  grid-template-rows: 48px 48px 48px 48px 48px 48px; 
   gap: 2px 2px; 
 }
 
