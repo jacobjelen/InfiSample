@@ -33,12 +33,23 @@ function resizeMain () {
   cont.style.width = newWidth + 'px'
   cont.style.height = newHeight + 'px'
 
-  //update CSS variables
+  // update CSS variables
   document.documentElement.style.setProperty('--main-width', newWidth + 'px')
   document.documentElement.style.setProperty('--main-height', newHeight + 'px')
 
   // document.documentElement.style.setProperty('--border-width', newWidth * 0.002 + 'px')
   // document.documentElement.style.setProperty('--keypad-font-size', newWidth * 0.03 + 'px')
   // document.documentElement.style.setProperty('--label-font-size', newWidth * 0.018 + 'px')
-  
+
+  const canvas = document.querySelector('canvas')
+  fitToContainer(canvas)
+}
+
+function fitToContainer (canvas) {
+  // Make it visually fill the positioned parent
+  canvas.style.width = '100%'
+  canvas.style.height = '100%'
+  // ...then set the internal size to match
+  canvas.width = canvas.offsetWidth
+  canvas.height = canvas.offsetHeight
 }

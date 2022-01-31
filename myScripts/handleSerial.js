@@ -1,23 +1,29 @@
-
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
-// let port = new SerialPort('/dev/cu.usbmodem14201', { baudRate: 9600 })
-// let parser = port.pipe(new Readline({ delimiter: '\n' }))
 let port, parser
 
-// PortSelect // Populate the dropdown menu
-function fillPortSelector () {
-  SerialPort.list().then(ports => {
-    console.log(ports)
-    const dropdown = document.getElementById('portSelect')
-
-    ports.forEach((port) => {
-      dropdown.add(new Option(port.path))
-    })
-  })
+const _model = { // to hold data coming on serial
+  slider: 0,
+  keypad: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  touchpad: { x: 0, y: 0, z: 0 },
+  mat: [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ],
+  power: false
 }
 
-// Set port object ////////////////////
+window.onload = function () {
+  setPort('/dev/cu.usbmodem14201')
+  fillMat()
+  fillPortSelector()
+}
+
+// SERIAL PORT OBJECTS //////////////////////////////////
 async function setPort (newPort) {
   if (port && port.isOpen) await port.close() // if port is open, close it before moving on
 
@@ -37,8 +43,7 @@ async function setPort (newPort) {
   })
 }
 
-// Change port based on user selection
-async function changePort (t) {
+async function changePort (t) { /// / Change port based on user selection
   console.log(t)
   const selectedPort = document.getElementById('portSelect').value
 
@@ -46,31 +51,20 @@ async function changePort (t) {
   setPort(selectedPort)
 }
 
-// sets up the connect button to trigger serial selection, and
-// calling of the process() function on each received serial line
-window.onload = function () {
-  dom_init()
-  setPort('/dev/cu.usbmodem14201')
-  // serial_init();
+// POPULATE DOM //////////////////////////////////
+
+function fillPortSelector () { // PortSelect // Populate the dropdown menu
+  SerialPort.list().then(ports => {
+    console.log(ports)
+    const dropdown = document.getElementById('portSelect')
+
+    ports.forEach((port) => {
+      dropdown.add(new Option(port.path))
+    })
+  })
 }
 
-const _model = {
-  slider: 0,
-  keypad: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  touchpad: { x: 0, y: 0, z: 0 },
-  mat: [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ],
-  power: false
-}
-
-function dom_init () {
-  // populate mat div with a div per cell
+function fillMat () { // populate mat div with a div per cell
   let r = -1; let c = 0
   const d = document.getElementById('mat').innerHTML =
             _model.mat[0].map(col => '').join('') +
@@ -83,7 +77,7 @@ function dom_init () {
               }).join('')
 }
 
-// process a line received over serial
+// PROCESS SERIAL DATA //////////////////////////////////
 function process (line) {
 //   console.log(line)
 

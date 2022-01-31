@@ -1,6 +1,6 @@
 :root{
   --main-color: white;
-  --highlight-color: red;
+  --highlight-color: lime;
   --bg-color: #666666;
 
   /* set by resize.js */
@@ -16,18 +16,9 @@
 
   font-family: "DINPro",sans-serif;
   font-weight: 400;
-}
-/* GENERAL */
-.line{
-  box-sizing: border-box; /* to have the border line on the div inside */
-  border-style: solid;  
-  border-width: var(--border-width);
-  border-color: var(--main-color);
-}
 
-.label{
-  padding: 10px 0px;
-  width: 100%;
+  box-sizing: border-box; /* to have the border line on the div inside */
+
 }
 
 /* TOP BAR */
@@ -52,7 +43,6 @@
   top: 0;
 }
 
-
 /* MAIN */
 
 main{
@@ -61,75 +51,55 @@ main{
 
   background: gray;
 
-  display: grid;
-  grid-template-columns: 65% 25%;
-  gap: 10% ;
-
   position: absolute;
   top: 50%; 
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
 
+/* NATHAN'S */
 
-
-/* PAD COLUMN */
-
-.pad{
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 47%;
+#content div {
+	padding: 16px;
+	float: left;
 }
 
-.pad-below{
-top: calc(var(--main-height));
-height: 6%
+#mat {
+  height: 100%;
+  display: grid; 
+  grid-template-columns: repeat(11, calc( 100%/11)); 
+  grid-template-rows: repeat(6, calc( 100%/6)); 
+  gap: 0px 0px; 
 }
 
-
-
-/* KEYPAD */
-#keypad-proportions {
-  width: 100%;
-  padding-top: 133.3%;
-  position: relative;
-  background: #888;
+#mat .mat_cell {
+    border: 0px solid var(--main-color);
 }
 
 #keypad {
-  /* variables */
-  --button-radius: 50%;
-  --gap: 8%;
-
-  /* keep everythign innside 'el-proportions' parent element */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-
-  display: grid; 
-  grid-template-columns: repeat(3, calc( (100% - 2*var(--gap))/3));  /* calculates width % that each button takes, depending on gap variable. repets 3x for 3 button collumns*/
-  grid-template-rows: repeat(4, calc( (100% - 3*var(--gap))/4)); 
-  
-  gap: var(--gap) ;
+    /* variables */
+    --button-radius: 50%;
+    --gap: 8%;
+    
+    display: grid; 
+    grid-template-columns: repeat(3, calc( (100% - 2*var(--gap))/3));  /* calculates width % that each button takes, depending on gap variable. repets 3x for 3 button collumns*/
+    grid-template-rows: repeat(4, calc( (100% - 3*var(--gap))/4)); 
+    
+    gap: var(--gap) ;
 }
 
 #keypad div {
-    border-radius: var(--button-radius);
-    border: var(--border-width) solid var(--main-color);
-    text-align: center;
+  border-radius: var(--button-radius);
+  border: var(--border-width) solid var(--main-color);
+  text-align: center;
 
-    font-size: var(--keypad-font-size);
+  font-size: var(--keypad-font-size);
 
-    /* this 4 lines is what you need these days for vertical align */
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
+  /* this 4 lines is what you need these days for vertical align */
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
 }
 
 #kp_0{
@@ -138,10 +108,15 @@ height: 6%
   border-radius: calc(var(--button-radius)/2)/var(--button-radius) !important;
 }
 
-#sliderDiv {
-  height: 19%;
-  /* padding-top: 30%; */
-  background: #555;
+
+.tp_canvas { grid-area: canvas;
+    border: 2px solid #B5EAD7;
+    z-index:99;
+}
+
+#tp {
+	font-smooth: never;
+	-webkit-font-smoothing : none;
 }
 
 #slider {
@@ -173,19 +148,14 @@ height: 6%
   height:6%;
 }
 
-/* POWER & LINK */
-#bottomRightGrid{
+#powerlinkDiv{
   display: grid; 
   grid-template-columns: 50% 50%;
   grid-template-rows: 80% 20%; 
 
   grid-template-areas: 
-    "powerDiv QR"
-    "powerLabel logo";
-}
-
-.powerDiv{
-  background: #111;
+    "multitouch keypad"
+    "forcepad slider";
 }
 
 #power {
@@ -193,17 +163,87 @@ height: 6%
     stroke: var(--main-color);
 }
 
-.powerLabel{
-  background: #222;
+/* LAYOUT */
+
+.container {  display: grid;
+  grid-template-columns: 65% 10% 25%;
+  grid-template-rows: 45% 5% 45% 5fr;
+  gap: 0% 0%;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "multitouch-box . keypad-box"
+    "multitouch-label . keypad-label"
+    "forcepad-box . bottomRight-box"
+    "forcepad-label . bottomRight-label";
 }
 
-.QR{
-  background: #333;
+.multitouch-box { 
+  grid-area: multitouch-box; 
+
 }
 
-.logo{
-  background: #444;
+.keypad-box {  
+  grid-area: keypad-box;
 }
+
+
+.multitouch-label { grid-area: multitouch-label; }
+
+.forcepad-box { grid-area: forcepad-box; }
+
+.forcepad-label { grid-area: forcepad-label; }
+
+.keypad-label { grid-area: keypad-label; }
+
+.bottomRight-box {  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 45% 45% 10%;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "slider-box slider-box"
+    "power-box qr-box"
+    "logo-box logo-box";
+  grid-area: bottomRight-box;
+}
+
+.slider-box { grid-area: slider-box; }
+
+.power-box { grid-area: power-box; }
+
+.qr-box { grid-area: qr-box; }
+
+.logo-box { grid-area: logo-box; }
+
+.bottomRight-label { grid-area: bottomRight-label; }
+
+
+html, body , .container {
+  height: 100%;
+  margin: 0;
+}
+
+/* For presentation only, no need to copy the code below */
+
+.container * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.container *:after {
+  content:attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
 
 
 
