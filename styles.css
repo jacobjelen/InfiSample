@@ -4,11 +4,13 @@
   --bg-color: #666666;
 
   /* set by resize.js */
-  --border-width: 1px;
-  --keypad-font-size: 9px;
-  --label-font-size: 5px;
   --main-width: 900px;
   --main-height: 666px;
+
+  --border-width: 1px;
+  --keypad-font-size: 9px;
+  --label-font-size: calc( var(--main-width)*0.018);
+
 
   color:var(--main-color);
   background-color:var(--bg-color);
@@ -43,13 +45,23 @@
   top: 0;
 }
 
-/* MAIN */
+/* GENERAL */
 
+.border{
+  border: var(--border-width) solid var(--main-color);
+}
+
+.label span{
+position: relative;
+padding: 10px;
+}
+
+/* MAIN */
 main{
   width: var(--main-width);
   height: var(--main-height);
 
-  background: gray;
+  /* background: gray; */
 
   position: absolute;
   top: 50%; 
@@ -79,13 +91,14 @@ main{
 #keypad {
     /* variables */
     --button-radius: 50%;
-    --gap: 8%;
+    --gap-h: 6.66%;
+    --gap-w: 10%;
     
     display: grid; 
-    grid-template-columns: repeat(3, calc( (100% - 2*var(--gap))/3));  /* calculates width % that each button takes, depending on gap variable. repets 3x for 3 button collumns*/
-    grid-template-rows: repeat(4, calc( (100% - 3*var(--gap))/4)); 
+    grid-template-columns: repeat(3, calc( (100% - 2*var(--gap-w))/3) );  /* calculates width % that each button takes, depending on gap variable. repets 3x for 3 button collumns*/
+    grid-template-rows: repeat(4, calc(100% - 2*var(--gap-h))/4 ); 
     
-    gap: var(--gap) ;
+    gap: var(--gap-h) var(--gap-w) ;
 }
 
 #keypad div {
@@ -93,7 +106,7 @@ main{
   border: var(--border-width) solid var(--main-color);
   text-align: center;
 
-  font-size: var(--keypad-font-size);
+  font-size: calc(var(--main-width)*0.025);
 
   /* this 4 lines is what you need these days for vertical align */
   display: flex;
@@ -110,7 +123,7 @@ main{
 
 
 .tp_canvas { grid-area: canvas;
-    border: 2px solid #B5EAD7;
+    /* border: 2px solid #B5EAD7; */
     z-index:99;
 }
 
@@ -131,6 +144,8 @@ main{
   border-top: solid;  
   border-width: var(--border-width);
   border-color: var(--main-color);
+
+  top: 40%;
 }
 
 #slider::-webkit-slider-thumb {
@@ -146,6 +161,10 @@ main{
 
 #sliderLabelDiv{
   height:6%;
+}
+
+#slider-label {
+  top: 70%;
 }
 
 #powerlinkDiv{
@@ -177,15 +196,9 @@ main{
     "forcepad-label . bottomRight-label";
 }
 
-.multitouch-box { 
-  grid-area: multitouch-box; 
+.multitouch-box { grid-area: multitouch-box; }
 
-}
-
-.keypad-box {  
-  grid-area: keypad-box;
-}
-
+.keypad-box { grid-area: keypad-box; }
 
 .multitouch-label { grid-area: multitouch-label; }
 
@@ -225,12 +238,12 @@ html, body , .container {
 
 /* For presentation only, no need to copy the code below */
 
-.container * {
+/* .container * {
   border: 1px solid red;
   position: relative;
-}
+} */
 
-.container *:after {
+/* .container *:after {
   content:attr(class);
   position: absolute;
   top: 0;
@@ -240,7 +253,7 @@ html, body , .container {
   display: grid;
   align-items: center;
   justify-content: center;
-}
+} */
 
 
 

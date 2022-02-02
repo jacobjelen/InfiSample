@@ -16,14 +16,9 @@
 
         <!-- TOP BAR -->
         <div id="topBar">
-            <span id='title'>Serial terminal</span>
+            <!-- <span id='title'>Serial terminal</span> -->
 
             <select id="portSelect" onchange="changePort(this.value)"></select>
-            <p id="notSupported" style="display:none;">
-                webserial is not detected. please enable it.
-                <a
-                    href="chrome://flags/#enable-experimental-web-platform-features">chrome://flags/#enable-experimental-web-platform-features</a>
-            </p>
 
             <div id="settingsButton">settings</div>
         </div>
@@ -32,24 +27,29 @@
         <main id="main">
             <div class="container">
 
-                <div id="mat" class="multitouch-box"><!-- auto generatred by js --></div>
+                <div id="mat" class="multitouch-box border"><!-- auto generatred by js --></div>
+                <div class="multitouch-label"></div>
+
                 <div id="keypad" class="keypad-box">
                     <div id="kp_7">7</div><div id="kp_8">8</div><div id="kp_9">9</div>
                     <div id="kp_4">4</div><div id="kp_5">5</div><div id="kp_6">6</div>
                     <div id="kp_1">1</div><div id="kp_2">2</div><div id="kp_3">3</div>
                     <div id="kp_0">0</div><div id="kp_10">.</div>
                 </div>
+                <div class="keypad-label label">
+                    <span>Keyboard</span>
+                    </div>
 
-                <div class="multitouch-label"></div>
+                
 
 
-                <div id="touchpad" class="forcepad-box">
+                <div id="touchpad" class="forcepad-box border">
                     <div class="tp_canvas"><canvas id="tp"></canvas>
                     </div>
                 </div>
 
                 <div class="forcepad-label"></div>
-                <div class="keypad-label"></div>
+                
 
                 <!-- POWER & LINK -->
                 <div class="bottomRight-box">
@@ -58,6 +58,8 @@
                     <div class="slider-box">
                         <input id="slider" type="range" min="0" max="255"
                             value="0" disabled="true" />
+
+                        <div id="slider-label label">Slider</div>    
                     </div>
 
                     <div class="power-box">

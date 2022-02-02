@@ -37,7 +37,7 @@ async function setPort (newPort) {
     parser = port.pipe(new Readline({ delimiter: '\n' }))
     parser.on('data', data => {
       // console.log('got word from arduino:', data);
-      document.getElementById('title').innerHTML = data
+      // document.getElementById('title').innerHTML = data
       process(data)
     })
   })
