@@ -21,7 +21,7 @@ window.onload = function () {
   setPort('/dev/cu.usbmodem14201')
   fillMat()
   fillPortSelector()
-  document.getElementById('reloadButton').addEventListener('click', fillPortSelector)
+  document.getElementById('reloadBtouchutton').addEventListener('click', fillPortSelector)
 }
 
 // SERIAL PORT OBJECTS //////////////////////////////////
@@ -156,7 +156,7 @@ function process (line) {
       _model.touchpad.x = args[0]
       _model.touchpad.y = args[1]
       _model.touchpad.z = args[2]
-      update_touchpad()
+      update_touchpad_2()
       break
     case 'C':
       for (let i = 0; i < 6; i++) { _model.mat[i][subcmd - 1] = args[i] }
@@ -177,7 +177,7 @@ function update_mat (c) {
     const x = _model.mat[i][c]
     // d.style.backgroundColor = 'rgba(255, 154, 162, ' + (x / 0xff) + ')'
     d.style.backgroundColor = 'var(--highlight-color)'
-    d.style.opacity = (x / 0xff) 
+    d.style.opacity = (x / 0xff)
     d.innerText = x
   }
 }
@@ -220,17 +220,25 @@ function update_touchpad () {
 }
 
 function update_touchpad_2 () {
-  const canvas = document.getElementById('tp')
-  const ctx = canvas.getContext('2d')
+  const canvas = document.getElementById('tp_canvas')
+  const press = document.getElementById('press')
+  // const ctx = canvas.getContext('2d')
 
   const x = _model.touchpad.x
   const y = _model.touchpad.y
   const z = _model.touchpad.z
 
-  const posx = x / 4095 * canvas.width
-  const posy = y / 4095 * canvas.height
-  const sizez = 16// z / 4095 * 32;
+  const posx = x / 4095 * canvas.clientWidth
+  const posy = y / 4095 * canvas.clientHeight
+  const sizez = z / 4095 * 32
 
+  // console.log(`x: ${posx}  y: ${posy}  z: ${sizez}`)
+
+  // press is a div inside the tp_canvas div representing position and force of pressure on the physical sensor
+  press.style.top = posy - (sizez / 2) // offset by a half of the size => center in the middle of press
+  press.style.left = posx - (sizez / 2)
+  press.style.width = sizez
+  press.style.height = sizez
 }
 
 function update_keypad () {
