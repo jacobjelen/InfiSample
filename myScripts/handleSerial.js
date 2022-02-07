@@ -21,6 +21,7 @@ window.onload = function () {
   setPort('/dev/cu.usbmodem14201')
   fillMat()
   fillPortSelector()
+  document.getElementById('reloadButton').addEventListener('click', fillPortSelector)
 }
 
 // SERIAL PORT OBJECTS //////////////////////////////////
@@ -43,6 +44,19 @@ async function setPort (newPort) {
   })
 }
 
+async function findArduino () {
+  if (port && port.isOpen) await port.close() // if port is open, close it before moving on
+
+  SerialPort.list().then(ports => {
+    port = ports.find(port => /arduino/i.test(port.manufacturer))
+    if (!port) {
+      console.error('Arduino Not found')
+      process.exit(1)
+    }
+    console.log(port.path)
+  })
+}
+
 async function changePort (t) { /// / Change port based on user selection
   console.log(t)
   const selectedPort = document.getElementById('portSelect').value
@@ -57,7 +71,7 @@ function fillPortSelector () { // PortSelect // Populate the dropdown menu
   SerialPort.list().then(ports => {
     console.log(ports)
     const dropdown = document.getElementById('portSelect')
-
+    dropdown.innerHTML = ''
     ports.forEach((port) => {
       dropdown.add(new Option(port.path))
     })
@@ -161,7 +175,9 @@ function update_mat (c) {
   for (let i = 0; i < 6; i++) {
     const d = document.getElementById('mat_L' + i + 'C' + c)
     const x = _model.mat[i][c]
-    d.style.backgroundColor = 'rgba(255, 154, 162, ' + (x / 0xff) + ')'
+    // d.style.backgroundColor = 'rgba(255, 154, 162, ' + (x / 0xff) + ')'
+    d.style.backgroundColor = 'var(--highlight-color)'
+    d.style.opacity = (x / 0xff) 
     d.innerText = x
   }
 }
@@ -203,10 +219,28 @@ function update_touchpad () {
   ctx.fillText('z' + z, 0, 50)
 }
 
+function update_touchpad_2 () {
+  const canvas = document.getElementById('tp')
+  const ctx = canvas.getContext('2d')
+
+  const x = _model.touchpad.x
+  const y = _model.touchpad.y
+  const z = _model.touchpad.z
+
+  const posx = x / 4095 * canvas.width
+  const posy = y / 4095 * canvas.height
+  const sizez = 16// z / 4095 * 32;
+
+}
+
 function update_keypad () {
-  for (i = 0; i < 11; i++) {
-    const d = document.getElementById('kp_' + i)
-    d.style.backgroundColor = _model.keypad[i] ? 'C7CEEA' : 'ffffff'
+  for (let i = 0; i < 11; i++) {
+    const k = document.getElementById('kp_' + i)
+    if (_model.keypad[i]) {
+      k.classList.add('key-active')
+    } else {
+      k.classList.remove('key-active')
+    }
   }
 }
 

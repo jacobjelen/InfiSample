@@ -1,6 +1,6 @@
 :root{
   --main-color: white;
-  --highlight-color: lime;
+  --highlight-color: #F46A24;
   --bg-color: #666666;
 
   /* set by resize.js */
@@ -113,6 +113,10 @@ main{
   justify-content: center;
   align-content: center;
   flex-direction: column;
+}
+
+.key-active {
+  background-color: var(--highlight-color);
 }
 
 #kp_0{
