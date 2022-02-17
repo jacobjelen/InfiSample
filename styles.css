@@ -135,12 +135,13 @@ main{
 }
 
 #press{
+  opacity: 0;
   width: 50px;
   height: 50px;
   position:relative;
   top: 35px;
   left: 595px;
-  overflow: hidden !important;
+  
   
   background-color: var(--highlight-color);
   border-radius: 50%;
@@ -150,6 +151,7 @@ main{
 
 #tp_canvas { grid-area: canvas;
     /* border: 2px solid #B5EAD7; */
+    overflow: hidden !important;
     z-index:99;
 }
 

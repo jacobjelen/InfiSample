@@ -78,6 +78,7 @@ function fillPortSelector () { // PortSelect // Populate the dropdown menu
   })
 }
 
+
 function fillMat () { // populate mat div with a div per cell
   let r = -1; let c = 0
   const d = document.getElementById('mat').innerHTML =
@@ -239,6 +240,7 @@ function update_touchpad_2 () {
   press.style.left = posx - (sizez / 2)
   press.style.width = sizez
   press.style.height = sizez
+  press.style.opacity = 1
 }
 
 function update_keypad () {

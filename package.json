@@ -1,11 +1,12 @@
 {
-  "name": "electron-quick-start",
+  "name": "Infi-Sample",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Visualisation software for Infi-tex Sample",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild": "electron-rebuild"
+    "rebuild": "electron-rebuild",
+    "build": "electron-packager . InfiSample --platform:darwin --app-version=1.0.0 --overwrite"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -15,10 +16,11 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "Jacob Jelen jacobjelen.com",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^13.6.7",
+    "electron-packager": "^15.4.0",
     "electron-rebuild": "^3.2.7",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
