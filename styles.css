@@ -37,12 +37,15 @@
   font-size: 15px;
 }
 
-#list{
+#menu-button{
   position:absolute;
   z-index:20;
   right: 1%;
   top: 2%;
   width: 2%;
+  min-width: 20px;
+  max-width: 40px;
+
   height: auto;
   color: var(--main-color);
 }
@@ -63,6 +66,11 @@ padding: 10px;
 
 .hidden{
   display: none !important;
+}
+
+.bg-texture{
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 /* MAIN */
@@ -91,6 +99,8 @@ main{
   grid-template-columns: repeat(11, calc( 100%/11)); 
   grid-template-rows: repeat(6, calc( 100%/6)); 
   gap: 0px 0px; 
+  
+  background-image: url("imgs/bg_multitouch.svg");
 }
 
 #mat .mat_cell {
@@ -132,6 +142,10 @@ main{
   grid-column: span 2;
   padding-left: 55%;
   border-radius: calc(var(--button-radius)/2)/var(--button-radius) !important;
+}
+
+#touchpad{
+  background-image: url("imgs/bg_forcepad.svg");
 }
 
 #press{
@@ -213,7 +227,7 @@ main{
 /* LAYOUT */
 
 .container {  display: grid;
-  grid-template-columns: 65% 10% 25%;
+  grid-template-columns: 61% 10% 25%; /* LAYOUT */
   grid-template-rows: 45% 5% 45% 5fr;
   gap: 0% 0%;
   grid-auto-flow: row;
@@ -266,12 +280,12 @@ html, body , .container {
 
 /* For presentation only, no need to copy the code below */
 
-/* .container * {
+.container * {
   border: 1px solid red;
   position: relative;
-} */
+}
 
-/* .container *:after {
+.container *:after {
   content:attr(class);
   position: absolute;
   top: 0;
@@ -281,10 +295,7 @@ html, body , .container {
   display: grid;
   align-items: center;
   justify-content: center;
-} */
-
-
-
+}
 
 
 

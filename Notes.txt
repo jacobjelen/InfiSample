@@ -1,20 +1,13 @@
 TO DO:
 
-- powerlink grid
-- right column style
-- power button svg from illustrator
-- labels
-- top bar popup
-
-- arduino dummy code
+- power button LINE svg from illustrator
+- Minimize
+    - remove bootstrap icon dependency
+    - remove useless fonts
 
 
 
 
 
 
-
-- how to SVG to HMTL
-- layout - make responsive using %
-- select port dropdown using option value attribute
 
