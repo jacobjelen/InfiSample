@@ -21,7 +21,6 @@ window.onload = function () {
   setPort('/dev/cu.usbmodem14201')
   fillMat()
   fillPortSelector()
-  document.getElementById('reloadBtouchutton').addEventListener('click', fillPortSelector)
 }
 
 // SERIAL PORT OBJECTS //////////////////////////////////
@@ -77,7 +76,6 @@ function fillPortSelector () { // PortSelect // Populate the dropdown menu
     })
   })
 }
-
 
 function fillMat () { // populate mat div with a div per cell
   let r = -1; let c = 0
@@ -259,7 +257,9 @@ function update_slider () {
 }
 
 function update_power () {
-  const color = _model.power ? '#C7CEEA' : '#000000'
-  document.querySelector('#power path').style.stroke = color
-  document.querySelector('#power line').style.stroke = color
+  if (_model.power) {
+    document.querySelector('#power').style.stroke = 'var(--highlight-color)'
+  } else {
+    document.querySelector('#power').style.stroke = 'var(--main-color)'
+  }
 }

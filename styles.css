@@ -167,6 +167,7 @@ main{
     /* border: 2px solid #B5EAD7; */
     overflow: hidden !important;
     z-index:99;
+    height: 100%;
 }
 
 #tp {
@@ -222,13 +223,17 @@ main{
 #power {
     stroke-width: var(--border-width);
     stroke: var(--main-color);
+
+    fill:none;
+    stroke-linecap:round;
+    stroke-miterlimit:10;
 }
 
-/* LAYOUT */
+/* LAYOUT grid.layoutit.com?id=FSDDXNh */
 
 .container {  display: grid;
   grid-template-columns: 61% 10% 25%; /* LAYOUT */
-  grid-template-rows: 45% 5% 45% 5fr;
+  grid-template-rows: 45% 5% 45% 5%;
   gap: 0% 0%;
   grid-auto-flow: row;
   grid-template-areas:
@@ -295,6 +300,8 @@ html, body , .container {
   display: grid;
   align-items: center;
   justify-content: center;
+  color: red;
+  z-index: -50;
 }
 
 
