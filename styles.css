@@ -1,7 +1,9 @@
 :root{
   --main-color: white;
-  --highlight-color: #F46A24;
-  --bg-color: #666666;
+  --highlight-color: #ff5500;
+  --bg-color: #363636;
+
+  --infi-orange: #F46A24;
 
   /* set by resize.js */
   --main-width: 900px;
@@ -50,18 +52,15 @@
   color: var(--main-color);
 }
 
-#portSelect{
-}
-
 /* GENERAL */
 
 .border{
-  border: var(--border-width) solid var(--main-color);
+  border: var(--border-width) solid var(--main-color) !important;
 }
 
-.label span{
+.label{
 position: relative;
-padding: 10px;
+opacity: 1
 }
 
 .hidden{
@@ -175,63 +174,13 @@ main{
 	-webkit-font-smoothing : none;
 }
 
-#slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 0px;
-  
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-
-  box-sizing: border-box; 
-  border-top: solid;  
-  border-width: var(--border-width);
-  border-color: var(--main-color);
-
-  top: 40%;
-}
-
-#slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border-radius: 50%;
-  border: var(--border-width) solid var(--main-color);
-  appearance: none;
-  width: calc( var(--main-width)*0.03 );
-  height: calc( var(--main-width)*0.03 );
-  background: var(--bg-color);
-  cursor: pointer;
-}
-
-#sliderLabelDiv{
-  height:6%;
-}
-
-#slider-label {
-  top: 70%;
-}
-
-#powerlinkDiv{
-  display: grid; 
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 80% 20%; 
-
-  grid-template-areas: 
-    "multitouch keypad"
-    "forcepad slider";
-}
-
-#power {
-    stroke-width: var(--border-width);
-    stroke: var(--main-color);
-
-    fill:none;
-    stroke-linecap:round;
-    stroke-miterlimit:10;
-}
-
 /* LAYOUT grid.layoutit.com?id=FSDDXNh */
+.container * {
+  position: relative;
+}
 
-.container {  display: grid;
+.container {  
+  display: grid;
   grid-template-columns: 61% 10% 25%; /* LAYOUT */
   grid-template-rows: 45% 5% 45% 5%;
   gap: 0% 0%;
@@ -253,30 +202,93 @@ main{
 
 .forcepad-label { grid-area: forcepad-label; }
 
-.keypad-label { grid-area: keypad-label; }
+.keypad-label { grid-area: keypad-label; 
+padding-top: 10%;
+}
 
 .bottomRight-box {  display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 45% 45% 10%;
+  grid-template-rows: 50% 50%;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
     "slider-box slider-box"
-    "power-box qr-box"
-    "logo-box logo-box";
+    "power-box logo-box";
   grid-area: bottomRight-box;
 }
 
 .slider-box { grid-area: slider-box; }
 
+#slider input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0px;
+  
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+
+  box-sizing: border-box; 
+  border-top: solid;  
+  border-width: var(--border-width);
+  border-color: var(--main-color);
+
+
+}
+
+#slider{
+  top:45%
+}
+
+#slider input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--main-color);
+  appearance: none;
+  width: calc( var(--main-width)*0.025 );
+  height: calc( var(--main-width)*0.025 );
+  background: var(--bg-color);
+  cursor: pointer;
+}
+
+.slider-label {
+  position: relative;
+  padding-top: 10%;
+}
+
 .power-box { grid-area: power-box; }
 
-.qr-box { grid-area: qr-box; }
+#power {
+  stroke-width: var(--border-width);
+  stroke: var(--main-color);
+
+  position: relative;
+  top: 15%;
+
+  /* padding: 10%; */
+  width: 80%;
+  height: auto;
+
+  fill:none;
+  stroke-linecap:round;
+  stroke-miterlimit:10;
+}
+
+#power-label{
+top:23%
+}
 
 .logo-box { grid-area: logo-box; }
 
-.bottomRight-label { grid-area: bottomRight-label; }
 
+.bottomRight-label { grid-area: bottomRight-label; 
+
+}
+
+#logo{
+  width: 90%;
+  top: 84%;
+  left: 10%;
+}
 
 html, body , .container {
   height: 100%;
@@ -285,12 +297,12 @@ html, body , .container {
 
 /* For presentation only, no need to copy the code below */
 
-.container * {
-  border: 1px solid red;
-  position: relative;
-}
+/* .container * {
+  border: 0.1px solid grey;
+  z-index: -50;
+} */
 
-.container *:after {
+/* .container *:after {
   content:attr(class);
   position: absolute;
   top: 0;
@@ -302,7 +314,7 @@ html, body , .container {
   justify-content: center;
   color: red;
   z-index: -50;
-}
+} */
 
 
 
@@ -321,15 +333,6 @@ html, body , .container {
   src: url('../fonts/DINPro-Medium.woff2') format('woff2'),
       url('../fonts/DINPro-Medium.woff') format('woff');
   font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'DINPro';
-  src: url('../fonts/DINPro-Regular.woff2') format('woff2'),
-      url('../fonts/DINPro-Regular.woff') format('woff');
-  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }

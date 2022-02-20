@@ -257,6 +257,13 @@ function update_slider () {
 }
 
 function update_power () {
+
+  // if (_model.power) {
+  //   document.querySelector('.power-box').style.backgroundColor = 'var(--highlight-color)'
+  // } else {
+  //   document.querySelector('.power-box').style.backgroundColor = 'var(--bg-color)'
+  // }
+
   if (_model.power) {
     document.querySelector('#power').style.stroke = 'var(--highlight-color)'
   } else {
