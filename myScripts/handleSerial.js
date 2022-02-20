@@ -177,7 +177,7 @@ function update_mat (c) {
     // d.style.backgroundColor = 'rgba(255, 154, 162, ' + (x / 0xff) + ')'
     d.style.backgroundColor = 'var(--highlight-color)'
     d.style.opacity = (x / 0xff)
-    d.innerText = x
+    // d.innerText = x
   }
 }
 

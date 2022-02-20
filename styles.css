@@ -104,6 +104,7 @@ main{
 
 #mat .mat_cell {
     border: 0px solid var(--main-color);
+    border-radius: 15%;
 }
 
 #keypad {
@@ -196,14 +197,24 @@ main{
 
 .keypad-box { grid-area: keypad-box; }
 
-.multitouch-label { grid-area: multitouch-label; }
+.multitouch-label { grid-area: multitouch-label; 
+position:relative;
+top: -80%;
+left: 2%;
+z-index: 100;
+}
 
 .forcepad-box { grid-area: forcepad-box; }
 
-.forcepad-label { grid-area: forcepad-label; }
+.forcepad-label { grid-area: forcepad-label; 
+  position:relative;
+  top: -80%;
+  left: 2%;
+  z-index: 100;
+}
 
 .keypad-label { grid-area: keypad-label; 
-padding-top: 10%;
+padding-top: 7%;
 }
 
 .bottomRight-box {  display: grid;
@@ -262,7 +273,7 @@ padding-top: 10%;
   stroke: var(--main-color);
 
   position: relative;
-  top: 15%;
+  top: 8%;
 
   /* padding: 10%; */
   width: 80%;
@@ -274,7 +285,7 @@ padding-top: 10%;
 }
 
 #power-label{
-top:23%
+top:16%
 }
 
 .logo-box { grid-area: logo-box; }
@@ -286,7 +297,7 @@ top:23%
 
 #logo{
   width: 90%;
-  top: 84%;
+  top: 79%;
   left: 10%;
 }
 
