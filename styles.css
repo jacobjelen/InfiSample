@@ -99,12 +99,15 @@ main{
   grid-template-rows: repeat(6, calc( 100%/6)); 
   gap: 0px 0px; 
   
+  /* border-radius: 5px; */
+
   background-image: url("imgs/bg_multitouch.svg");
 }
 
 #mat .mat_cell {
     border: 0px solid var(--main-color);
-    border-radius: 15%;
+    margin: 1%;
+    /* border-radius: 10%; */
 }
 
 #keypad {
