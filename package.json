@@ -30,6 +30,6 @@
     "eslint-plugin-react": "^7.28.0"
   },
   "dependencies": {
-    "serialport": "^9.2.8"
+    "serialport": "^10.3.0"
   }
 }
