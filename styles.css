@@ -36,6 +36,8 @@
   padding: 1%;
   background-color: var(--highlight-color);
 
+  border-bottom: solid 1px white;
+
   font-size: 15px;
 }
 
@@ -50,6 +52,10 @@
 
   height: auto;
   color: var(--main-color);
+}
+
+#menu-button:hover{
+  color: var(--highlight-color);
 }
 
 /* GENERAL */
