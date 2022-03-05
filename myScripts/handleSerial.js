@@ -69,6 +69,56 @@ async function changePort (t) { /// / Change port based on user selection
   setPort(selectedPort)
 }
 
+// MOVING AVERAGE BUFFER CLASS //////////////////////////////////
+
+class Buffer {
+  /*  bufferes a specifies number of values
+  > avgInt returns the average of the buffered values => smooths out streaming data
+  > stableAvg gets updated when all values are within +-volatility of the most recent value
+      => eliminates 'sliding' between major value state changes
+  */
+  constructor (size, volatility = 10) {
+    this.size = size // how many values to keep
+    this.volatility = volatility // how much can values by off to be considered 'stable'
+
+    this.values = []
+    this.stableAvg = null
+  }
+
+  // add value
+  addValue (val) {
+    if (this.values.length >= this.size) {
+      this.values.shift() // if the buffer is full, delet the first (oldest) value
+    }
+    this.values.push(val) // add value to the end
+    // this.setStableAvg()
+    console.log(this.stableAvg)
+  }
+
+  // get average of the buffer as rounded Int
+  getAvgInt () {
+    return Math.round(ld.mean(this.values))
+  }
+
+  getStableAvg () {
+    // if all values are within 'volatility'
+    // check if lenght of .values filtered by volatility range == lenght of unfiltered .values
+
+    if (this.values.length === this.values.filter(val =>
+      ld.inRange(
+        val,
+        ld.last(this.values) - this.volatility,
+        ld.last(this.values) + this.volatility)).length
+    ) {
+      this.stableAvg = Math.round(ld.mean(this.values))
+      console.log(this.stableAvg)
+    }
+    return this.stableAvg
+  }
+}
+
+const sliderBuffer = new Buffer(3)
+
 // POPULATE DOM //////////////////////////////////
 
 function fillPortSelector () { // PortSelect // Populate the dropdown menu
@@ -235,8 +285,11 @@ function update_keypad () {
   }
 }
 
-
 function update_slider () {
+  sliderBuffer.addValue(_model.slider) // add the latest reading
+  const avgVal = sliderBuffer.getStableAvg() // averaged buffer
+  // const avgVal = _model.slider
+
   const s = document.getElementById('slider-input')
   const sVal = parseInt(s.value)
   const sMin = parseInt(s.min)
@@ -244,28 +297,21 @@ function update_slider () {
   const margin = 5 // don't set new value if it's within from the last one => smooth out the visualisation
   const touchMin = 5 // if reading is bellow, finger is lifted
 
-  console.log(`s.value: ${sVal} --- reading: ${_model.slider}`)
-
   // HTML range is 100-220, these values are withing the printed slider graphic
-  if (_model.slider < touchMin) {
+  if (avgVal < touchMin) {
     // finger is off
-    console.log(1)
-  } else if (_model.slider < sMin) {
+  } else if (avgVal < sMin) {
     // finger is below minimum
     s.value = sMin
-    console.log(2)
-  } else if (_model.slider < sMax) {
+  } else if (avgVal < sMax) {
     // finger is on the slider
-    console.log(3)
     // Eliminate reading noise, use margin
-    if (!ld.inRange(_model.slider, sVal - margin, sVal + margin)) {
-      s.value = _model.slider
-      console.log(3.1)
+    if (!ld.inRange(avgVal, sVal - margin, sVal + margin)) {
+      s.value = avgVal
     }
-  } else if (_model.slider > sMax) {
+  } else if (avgVal > sMax) {
     // finger is past maximum
     s.value = sMax
-    console.log(4)
   }
 }
 
