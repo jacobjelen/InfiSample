@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "serialport": "^9.2.8"
+    "serialport": "^10.4.0"
   }
 }
