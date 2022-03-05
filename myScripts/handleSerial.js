@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 let port, parser
+const ld = require('lodash')
 
 const _model = { // to hold data coming on serial
   slider: 0,
@@ -22,6 +24,9 @@ window.onload = function () {
   fillMat()
   fillPortSelector()
 }
+
+//
+const slider_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 // SERIAL PORT OBJECTS //////////////////////////////////
 async function setPort (newPort) {
@@ -80,19 +85,19 @@ function fillPortSelector () { // PortSelect // Populate the dropdown menu
 function fillMat () { // populate mat div with a div per cell
   let r = -1; let c = 0
   const d = document.getElementById('mat').innerHTML =
-            _model.mat[0].map(col => '').join('') +
-            _model.mat.map(
-              row => {
-                r++; c = 0
-                return row.map(col => (
-                  '<div class="mat_cell" id="mat_L' + (r) + 'C' + (c++) + '">&nbsp;</div>')
-                ).join('')
-              }).join('')
+    _model.mat[0].map(col => '').join('') +
+    _model.mat.map(
+      row => {
+        r++; c = 0
+        return row.map(col => (
+          '<div class="mat_cell" id="mat_L' + (r) + 'C' + (c++) + '">&nbsp;</div>')
+        ).join('')
+      }).join('')
 }
 
 // PROCESS SERIAL DATA //////////////////////////////////
 function process (line) {
-//   console.log(line)
+  // console.log(line)
 
   // lines are in the form:
   // X: some numbers in hexadecimal format
@@ -152,10 +157,11 @@ function process (line) {
       update_keypad()
       break
     case 'T':
-      _model.touchpad.x = args[0]
-      _model.touchpad.y = args[1]
-      _model.touchpad.z = args[2]
-      update_touchpad_2()
+      // UNCOMMENT THIS WHEN TOUCHPAD IS WORKING
+      // _model.touchpad.x = args[0]
+      // _model.touchpad.y = args[1]
+      // _model.touchpad.z = args[2]
+      // update_touchpad()
       break
     case 'C':
       for (let i = 0; i < 6; i++) { _model.mat[i][subcmd - 1] = args[i] }
@@ -169,59 +175,36 @@ function process (line) {
 }
 
 // ELEMENT UPDATE FUNCTIONS //////////////////////////////////
-
+// Multi-Touch
 function update_mat (c) {
+  // console.log(_model.mat)
+
+  // calculated in multitouch_calc.js
+  const mat_normalise_multiplier = [
+    [1, 1.58, 1.82, 1.78, 3.15, 4.32, 4.1, 5.86, 5.86, 6.83, 4.32],
+    [2.56, 3.15, 3.28, 4.1, 4.82, 5.47, 8.2, 6.83, 9.11, 7.45, 6.31],
+    [3.73, 5.13, 5.86, 5.86, 8.2, 9.11, 9.11, 9.11, 10.25, 13.67, 7.45],
+    [5.47, 6.83, 7.45, 7.45, 7.45, 8.2, 6.83, 9.11, 7.45, 13.67, 8.2],
+    [5.47, 7.45, 8.2, 7.45, 8.2, 10.25, 10.25, 10.25, 8.2, 10.25, 6.83],
+    [6.31, 7.45, 8.2, 9.11, 10.25, 9.11, 8.2, 10.25, 11.71, 9.11, 7.45]
+  ]
+  const mat_gain = 4
+  const mat_threshold = 0
+
   for (let i = 0; i < 6; i++) {
     const d = document.getElementById('mat_L' + i + 'C' + c)
     const x = _model.mat[i][c]
-    // d.style.backgroundColor = 'rgba(255, 154, 162, ' + (x / 0xff) + ')'
-    d.style.backgroundColor = 'var(--highlight-color)'
-    d.style.opacity = (x / 0xff)
-    // d.innerText = x
+    // d.style.opacity = x > mat_threshold ? (x / 255) * mat_normalise_multiplier[i][c] * mat_gain : 0 // opacity is 0 unless X is over threshod
+    d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0 // opacity is 0 unless X is over threshod
+
+    d.innerText = d.style.opacity
   }
 }
 
+// Force-pad
 function update_touchpad () {
-  const canvas = document.getElementById('tp')
-  const ctx = canvas.getContext('2d')
-
-  const x = _model.touchpad.x
-  const y = _model.touchpad.y
-  const z = _model.touchpad.z
-
-  const posx = x / 4095 * canvas.width
-  const posy = y / 4095 * canvas.height
-  const sizez = 16// z / 4095 * 32;
-
-  // draw cursor
-  ctx.globalCompositeOperation = 'source-over'
-
-  ctx.beginPath()
-  ctx.arc(posx, posy, sizez, 0, 2 * Math.PI)
-  ctx.fillStyle = '#B5EAD7'
-  ctx.fill()
-
-  // lighten (pixels tend to white, so we get a trail)
-  ctx.globalCompositeOperation = 'lighter'
-  ctx.fillStyle = '#050505'
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-  // draw values
-  ctx.globalCompositeOperation = 'source-over'
-  ctx.fillStyle = '#ffffff'
-  ctx.fillRect(0, 0, 70, 50)
-
-  ctx.fillStyle = 'black'
-  ctx.font = '20px monospace'
-  ctx.fillText('x' + x, 0, 20)
-  ctx.fillText('y' + y, 0, 35)
-  ctx.fillText('z' + z, 0, 50)
-}
-
-function update_touchpad_2 () {
   const canvas = document.getElementById('tp_canvas')
   const press = document.getElementById('press')
-  // const ctx = canvas.getContext('2d')
 
   const x = _model.touchpad.x
   const y = _model.touchpad.y
@@ -252,12 +235,41 @@ function update_keypad () {
   }
 }
 
+
 function update_slider () {
-  document.getElementById('slider').value = _model.slider
+  const s = document.getElementById('slider-input')
+  const sVal = parseInt(s.value)
+  const sMin = parseInt(s.min)
+  const sMax = parseInt(s.max)
+  const margin = 5 // don't set new value if it's within from the last one => smooth out the visualisation
+  const touchMin = 5 // if reading is bellow, finger is lifted
+
+  console.log(`s.value: ${sVal} --- reading: ${_model.slider}`)
+
+  // HTML range is 100-220, these values are withing the printed slider graphic
+  if (_model.slider < touchMin) {
+    // finger is off
+    console.log(1)
+  } else if (_model.slider < sMin) {
+    // finger is below minimum
+    s.value = sMin
+    console.log(2)
+  } else if (_model.slider < sMax) {
+    // finger is on the slider
+    console.log(3)
+    // Eliminate reading noise, use margin
+    if (!ld.inRange(_model.slider, sVal - margin, sVal + margin)) {
+      s.value = _model.slider
+      console.log(3.1)
+    }
+  } else if (_model.slider > sMax) {
+    // finger is past maximum
+    s.value = sMax
+    console.log(4)
+  }
 }
 
 function update_power () {
-
   // if (_model.power) {
   //   document.querySelector('.power-box').style.backgroundColor = 'var(--highlight-color)'
   // } else {

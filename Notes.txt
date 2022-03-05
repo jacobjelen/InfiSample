@@ -11,7 +11,14 @@ TO DO:
     - remove bootstrap icon dependency
     - remove useless fonts
 
+- Make infitex icon
 
+- git
+    - create NoFilter branch - no moving averages or anything, just straight values
+    - master branch is the one with 'production' code - for clients
+        - mac
+        - win 
+        - ...branches for each electron app distribution
 
 
 
