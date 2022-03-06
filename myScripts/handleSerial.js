@@ -25,9 +25,6 @@ window.onload = function () {
   fillPortSelector()
 }
 
-//
-const slider_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
 // SERIAL PORT OBJECTS //////////////////////////////////
 async function setPort (newPort) {
   if (port && port.isOpen) await port.close() // if port is open, close it before moving on
@@ -288,13 +285,11 @@ function update_keypad () {
 function update_slider () {
   sliderBuffer.addValue(_model.slider) // add the latest reading
   const avgVal = sliderBuffer.getStableAvg() // averaged buffer
-  // const avgVal = _model.slider
-
   const s = document.getElementById('slider-input')
   const sVal = parseInt(s.value)
   const sMin = parseInt(s.min)
   const sMax = parseInt(s.max)
-  const margin = 5 // don't set new value if it's within from the last one => smooth out the visualisation
+  const margin = 4 // don't set new value if it's within from the last one => smooth out the visualisation
   const touchMin = 5 // if reading is bellow, finger is lifted
 
   // HTML range is 100-220, these values are withing the printed slider graphic
@@ -312,6 +307,20 @@ function update_slider () {
   } else if (avgVal > sMax) {
     // finger is past maximum
     s.value = sMax
+  }
+
+  // Set style based on raw value
+  if (_model.slider < touchMin) {
+    // finger is off
+    s.style.borderColor = 'var(--main-color)'
+  } else if (_model.slider < sMin) {
+    // finger is below minimum
+    s.style.borderColor = 'var(--main-color)'
+  } else if (_model.slider < sMax) {
+    // finger is on the slider
+    s.style.borderColor = 'var(--highlight-color)'
+  } else if (_model.slider > sMax) {
+    s.style.borderColor = 'var(--main-color)'
   }
 }
 
