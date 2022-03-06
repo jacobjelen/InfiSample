@@ -116,6 +116,8 @@ main{
     opacity: 0;
     margin: 1%;
     /* border-radius: 10%; */
+     -webkit-transition: 0.5s;
+    transition: opacity 0.5s;
 }
 
 #keypad {
@@ -143,10 +145,15 @@ main{
   justify-content: center;
   align-content: center;
   flex-direction: column;
+  
+  -webkit-transition: 0.5s;
+  transition: opacity 0.5s;
 }
 
 .key-active {
   background-color: var(--highlight-color);
+  -webkit-transition: 0.5s;
+  transition: opacity 0.5s;
 }
 
 #kp_0{

@@ -20,7 +20,9 @@ const _model = { // to hold data coming on serial
 }
 
 window.onload = function () {
-  setPort('/dev/cu.usbmodem14201')
+  findBoard().then(
+    path => setPort(path)
+  )
   fillMat()
   fillPortSelector()
 }
@@ -45,17 +47,18 @@ async function setPort (newPort) {
   })
 }
 
-async function findArduino () {
-  if (port && port.isOpen) await port.close() // if port is open, close it before moving on
+function findBoard () {
+  return new Promise(
+    resolve => {
+      SerialPort.list().then(ports => {
+        const boards = ports.filter(port => port.manufacturer === 'Embedism')
 
-  SerialPort.list().then(ports => {
-    port = ports.find(port => /arduino/i.test(port.manufacturer))
-    if (!port) {
-      console.error('Arduino Not found')
-      process.exit(1)
+        if (boards.length > 0) {
+          resolve(boards[0].path)
+        }
+      })
     }
-    console.log(port.path)
-  })
+  )
 }
 
 async function changePort (t) { /// / Change port based on user selection
@@ -66,7 +69,7 @@ async function changePort (t) { /// / Change port based on user selection
   setPort(selectedPort)
 }
 
-// MOVING AVERAGE BUFFER CLASS //////////////////////////////////
+// MOVING AVERAGE BUFFER //////////////////////////////////
 
 class Buffer {
   /*  bufferes a specifies number of values
@@ -88,8 +91,6 @@ class Buffer {
       this.values.shift() // if the buffer is full, delet the first (oldest) value
     }
     this.values.push(val) // add value to the end
-    // this.setStableAvg()
-    console.log(this.stableAvg)
   }
 
   // get average of the buffer as rounded Int
@@ -108,7 +109,6 @@ class Buffer {
         ld.last(this.values) + this.volatility)).length
     ) {
       this.stableAvg = Math.round(ld.mean(this.values))
-      console.log(this.stableAvg)
     }
     return this.stableAvg
   }
@@ -121,10 +121,20 @@ const sliderBuffer = new Buffer(3)
 function fillPortSelector () { // PortSelect // Populate the dropdown menu
   SerialPort.list().then(ports => {
     console.log(ports)
-    const dropdown = document.getElementById('portSelect')
-    dropdown.innerHTML = ''
+    const select = document.getElementById('portSelect')
+    select.innerHTML = ''
     ports.forEach((port) => {
-      dropdown.add(new Option(port.path))
+      // dropdown.add(new Option(port.path))
+      const opt = document.createElement('option')
+      opt.value = port.path
+
+      if (port.manufacturer === 'Embedism') {
+        opt.innerHTML = `${port.path} (Infi-Tex Sampler)`
+      } else {
+        opt.innerHTML = port.path
+      }
+
+      select.appendChild(opt)
     })
   })
 }
@@ -232,19 +242,23 @@ function update_mat (c) {
     [2.56, 3.15, 3.28, 4.1, 4.82, 5.47, 8.2, 6.83, 9.11, 7.45, 6.31],
     [3.73, 5.13, 5.86, 5.86, 8.2, 9.11, 9.11, 9.11, 10.25, 13.67, 7.45],
     [5.47, 6.83, 7.45, 7.45, 7.45, 8.2, 6.83, 9.11, 7.45, 13.67, 8.2],
-    [5.47, 7.45, 8.2, 7.45, 8.2, 10.25, 10.25, 10.25, 8.2, 10.25, 6.83],
-    [6.31, 7.45, 8.2, 9.11, 10.25, 9.11, 8.2, 10.25, 11.71, 9.11, 7.45]
+    [5.47, 7.45, 8.2, 7.45, 8.2, 10.25, 10.25, 10.25, 10.25, 10.25, 10.25],
+    [6.31, 7.45, 8.2, 9.11, 10.25, 9.11, 8.2, 10.25, 11.71, 9.11, 10.25]
   ]
-  const mat_gain = 4
-  const mat_threshold = 0
+  const mat_gain = 6
+  const mat_threshold = 5
 
   for (let i = 0; i < 6; i++) {
     const d = document.getElementById('mat_L' + i + 'C' + c)
     const x = _model.mat[i][c]
-    // d.style.opacity = x > mat_threshold ? (x / 255) * mat_normalise_multiplier[i][c] * mat_gain : 0 // opacity is 0 unless X is over threshod
-    d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0 // opacity is 0 unless X is over threshod
 
-    d.innerText = d.style.opacity
+    // OPACITY with normalisation and gain
+    d.style.opacity = x > mat_threshold ? (x / 255) * mat_normalise_multiplier[i][c] * mat_gain : 0 // opacity is 0 unless X is over threshod
+
+    // OPACITY 100% over threhold
+    // d.style.opacity = x > mat_threshold ? 1 : 0
+
+    // d.innerText = d.style.opacity
   }
 }
 

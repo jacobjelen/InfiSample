@@ -13,7 +13,8 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false
-    }
+    },
+    icon: 'icon.ico'
   })
 
   // and load the index.html of the app.

@@ -1,6 +1,8 @@
 TO DO:
 
-- filter values
+- findBoard() not working, uncaught promise 
+
++ filter values
     - slider: jumps around because the reading is noisy
         - only change the slider position if the new value is different more than X threshold
     - multitouch: sensitivity is decreasing the further it is from the reading PCB
