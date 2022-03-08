@@ -67,6 +67,8 @@ async function changePort (t) { /// / Change port based on user selection
 
   if (port.isOpen) await port.close() // if port is open, close it before moving on
   setPort(selectedPort)
+
+  document.getElementById('topBar').classList.add('hidden')
 }
 
 // MOVING AVERAGE BUFFER //////////////////////////////////
