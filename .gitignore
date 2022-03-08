@@ -3,3 +3,5 @@ node_modules
 .eslintrc.js
 GuiFromNathan.html
 /InfiSample-darwin-x64
+/release-builds
+/build
