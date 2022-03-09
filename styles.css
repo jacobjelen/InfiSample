@@ -24,6 +24,64 @@
 
 }
 
+/* CONNECT BUTTON for WebSerial */
+#serial{
+  z-index: 99999;
+}
+
+#serial a{
+  color: var(--highlight-color);
+  text-decoration: none;
+}
+
+#connect{
+  position:absolute;
+  padding: 5px 10px;
+  margin: 10px;
+  width: auto;
+
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+  background-color: var(--bg-color);
+  border: solid 1px white;
+  border-radius: 3px;
+}
+
+#connect:hover{
+  color: var(--main-color);
+  border-color: var(--main-color) !important;
+  cursor: pointer;
+}
+
+.connect-ok{
+  color: grey;
+  border: 0px !important;
+  border-color: grey !important;
+}
+
+.connect-error{
+  color: var(--highlight-color);
+  border-color: var(--highlight-color) !important;
+}
+
+#notSupported{
+  display: block;
+  
+  width: clamp(100px, 100%, 300px);
+
+  position:absolute;
+  margin: 10px;
+  top: 5%;
+
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  /* background-color: grey; */
+}
+
+#notSupported li{
+  margin: 10px 0px
+}
+
 /* TOP BAR */
 #topBar{
   position:absolute;
@@ -85,17 +143,12 @@ main{
   /* background: gray; */
 
   position: absolute;
-  top: 50%; 
-  left: 50%;
+  top: 53%; 
+  left: 52%;
   transform: translateX(-50%) translateY(-50%);
 }
 
 /* NATHAN'S */
-
-#content div {
-	padding: 16px;
-	float: left;
-}
 
 #mat {
   height: 100%;
@@ -384,3 +437,16 @@ html, body , .container {
   font-style: normal;
   font-display: swap;
 }
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete

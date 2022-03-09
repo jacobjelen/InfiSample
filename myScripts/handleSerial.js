@@ -82,7 +82,7 @@ const sliderBuffer = new Buffer(3)
 
 // process a line received over serial
 function process (line) {
-  console.log(line)
+  // console.log(line)
 
   // lines are in the form:
   // X: some numbers in hexadecimal format

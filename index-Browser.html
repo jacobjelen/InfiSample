@@ -8,23 +8,35 @@
         <link rel="stylesheet" href="styles.css">
 
         <!-- SCRIPTS -->
-        <script src='./myScripts/initBrowser.js'></script>
-        <script src='./myScripts/handleSerial.js'></script>
-        <script src='./myScripts/resize.js'></script>
-        <script src='./myScripts/lodash.js'></script>
+        <script src='./myScripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
+        <script src='./myScripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
+        <script src='./myScripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
+        <script src='./myScripts/lodash.js'></script> <!-- library for working with arrays. used by handleSerial.js -->
 
 
     </head>
 
     <body>
+        <div id="serial">
+            <div id="connect" class="connect-error" role="button"> Connect </div>
+            <!-- HTML !-->
 
-        <p id="notSupported" style="display:none;">
-            webserial is not detected. please enable it.
-            <a
-                href="chrome://flags/#enable-experimental-web-platform-features">chrome://flags/#enable-experimental-web-platform-features</a>
-        </p>
+            <div id="notSupported">
+                <br>
+                Please check that:
+                <ul>
+                    <li>Infi-Tex Sampler is connected to USB</li>
+                    <li>You are using <b>Chrome</b> browser</li>
+                    <li>Experimental Web Platform features are enabled here:
+                        <a href="chrome://flags/#enable-experimental-web-platform-features" target="_blank">chrome://flags/#enable-experimental-web-platform-features</a></li> 
+                    </li>
+                </ul>
+                </div>
+        </div>
 
-        <button id="connect">connect</button>
+
+
+        
 
         <!-- // MAIN //////////////////////////////////////////// -->
         <main id="main">
@@ -49,7 +61,6 @@
 
                 <div id="touchpad" class="forcepad-box border bg-texture">
                     <div id="tp_canvas">
-                        <!-- <canvas id="tp"></canvas> -->
                         <div id="press"></div>
                     </div>
                 </div>
@@ -86,11 +97,7 @@
                             </div>
 
                         </div> <!-- bottom-right-box  -->
-                        <div class="bottomRight-label label">
 
-
-
-                        </div>
                     </div> <!-- container  -->
                 </main>
 

@@ -41,12 +41,12 @@ function resizeMain () {
   // document.documentElement.style.setProperty('--keypad-font-size', newWidth * 0.03 + 'px')
   // document.documentElement.style.setProperty('--label-font-size', newWidth * 0.018 + 'px')
 
-  try {
-    const canvas = document.querySelector('canvas')
-    fitToContainer(canvas)
-  } catch (error) {
-    console.log(error)
-  }
+  // try {
+  //   const canvas = document.querySelector('canvas')
+  //   fitToContainer(canvas)
+  // } catch (error) {
+  //   console.log(error)
+  // }
   
 }
 

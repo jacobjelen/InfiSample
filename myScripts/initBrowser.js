@@ -1,24 +1,38 @@
 // INITIAL FUNCTIONS
 
 function serial_init () {
-  if (!'serial' in navigator) { document.getElementById('notSupported').style.display = 'block' }
-
   const bc = document.getElementById('connect')
+  const err = document.getElementById('notSupported')
+  const main = document.getElementById('main')
+  main.style.opacity = 0.3
+
+  if (!'serial' in navigator) {
+    err.style.display = 'block'
+  }
 
   bc.onclick = async function () {
     let port = null
 
+    console.log('Connect clicked')
+    console.dir(navigator)
+
     try {
-		    port = await navigator.serial.requestPort()
-		    await port.open({ baudRate: 115200 })
+      port = await navigator.serial.requestPort()
+      await port.open({ baudRate: 115200 })
 
       await port.setSignals({ dataTerminalReady: true })
       await port.setSignals({ requestToSend: false })
     } catch (e) {
-      bc.className = 'error'
+      // bc.className = 'connect-error'
+      // bc.innerHTML = 'Connect: Error 1'
+      // main.style.opacity = 0.3
       return
     }
-    bc.className = 'ok'
+
+    bc.className = 'connect-ok'
+    err.style.display = 'none'
+    // bc.innerHTML = 'Connect '
+    main.style.opacity = 1
 
     while (port.readable) {
       const reader = port.readable
@@ -34,12 +48,18 @@ function serial_init () {
           }
           if (done) {
             port.close()
-            bc.className = 'error'
+            // bc.className = 'connect-error'
+            // bc.innerHTML = 'Connect: Error 2'
+            // main.style.opacity = 0.3
+
             break
           }
         }
       } catch (e) {
         console.log(e)
+        // bc.innerHTML = 'Connect'
+        bc.className = 'connect-error'
+        // main.style.opacity = 0.3
       } finally {
         reader.releaseLock()
       }
@@ -66,4 +86,3 @@ window.onload = function () {
   fillMat()
   serial_init()
 }
-
