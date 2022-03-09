@@ -1,17 +1,19 @@
 <html>
 
     <head>
-        <!-- <meta charset="UTF-8"> -->
+        <meta charset="UTF-8">
         <title>Infi-tex Sample</title>
+          <link rel="icon" type="image/x-icon" href="/src/imgs/infi.ico">
+
 
         <!-- GRID LAYOUT HERE: grid.layoutit.com?id=FSDDXNh -->
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="./src/styles.css">
 
         <!-- SCRIPTS -->
-        <script src='./myScripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
-        <script src='./myScripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
-        <script src='./myScripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
-        <script src='./myScripts/lodash.js'></script> <!-- library for working with arrays. used by handleSerial.js -->
+        <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
+        <script src='./src/scripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
+        <script src='./src/scripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
+        <script src='./src/scripts/lodash.js'></script> <!-- library for working with arrays. used by handleSerial.js -->
 
 
     </head>
@@ -93,7 +95,10 @@
                             </div> <!-- power-box  -->
 
                             <div class="logo-box">
-                                <img id="logo" src="./imgs/logo-infi-tex.svg">
+                                <a href="http://www.infi-tex.com/" target="_blank">
+                                    <img id="logo" src="./src/imgs/logo-infi-tex.svg">
+                                </a>
+                                
                             </div>
 
                         </div> <!-- bottom-right-box  -->
