@@ -1,0 +1,452 @@
+:root{
+  --main-color: white;
+  --highlight-color: #ff5500;
+  --bg-color: #363636;
+
+  --infi-orange: #F46A24;
+
+  /* set by resize.js */
+  --main-width: 900px;
+  --main-height: 666px;
+
+  --border-width: 1px;
+  --keypad-font-size: 9px;
+  --label-font-size: calc( var(--main-width)*0.018);
+
+  color:var(--main-color);
+  background-color:var(--bg-color);
+  font-size: var(--label-font-size);
+
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+
+  box-sizing: border-box; /* to have the border line on the div inside */
+
+}
+
+/* CONNECT BUTTON for WebSerial */
+#serial{
+  z-index: 99999;
+}
+
+#serial a{
+  color: var(--highlight-color);
+  text-decoration: none;
+}
+
+#connect{
+  position:absolute;
+  padding: 5px 10px;
+  margin: 10px;
+  width: auto;
+
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+  background-color: var(--bg-color);
+  border: solid 1px white;
+  border-radius: 3px;
+}
+
+#connect:hover{
+  color: var(--main-color);
+  border-color: var(--main-color) !important;
+  cursor: pointer;
+}
+
+.connect-ok{
+  color: grey;
+  border: 0px !important;
+  border-color: grey !important;
+}
+
+.connect-error{
+  color: var(--highlight-color);
+  border-color: var(--highlight-color) !important;
+}
+
+#notSupported{
+  display: block;
+  
+  width: clamp(100px, 100%, 300px);
+
+  position:absolute;
+  margin: 10px;
+  top: 5%;
+
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  /* background-color: grey; */
+}
+
+#notSupported li{
+  margin: 10px 0px
+}
+
+/* TOP BAR */
+#topBar{
+  position:absolute;
+  z-index: 10;
+  width: 100%;
+  /* height: 6%; */
+  top: 0;
+  left: 0;
+  padding: 1%;
+  background-color: var(--highlight-color);
+
+  border-bottom: solid 1px white;
+
+  font-size: 15px;
+}
+
+#menu-button{
+  position:absolute;
+  z-index:20;
+  right: 1%;
+  top: 2%;
+  width: 2%;
+  min-width: 20px;
+  max-width: 40px;
+
+  height: auto;
+  color: var(--main-color);
+}
+
+#menu-button:hover{
+  color: var(--highlight-color);
+}
+
+/* GENERAL */
+
+.border{
+  border: var(--border-width) solid var(--main-color) !important;
+}
+
+.label{
+position: relative;
+opacity: 1
+}
+
+.hidden{
+  display: none !important;
+}
+
+.bg-texture{
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* MAIN */
+main{
+  width: var(--main-width);
+  height: var(--main-height);
+
+  /* background: gray; */
+
+  position: absolute;
+  top: 53%; 
+  left: 52%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/* NATHAN'S */
+
+#mat {
+  height: 100%;
+  display: grid; 
+  grid-template-columns: repeat(11, calc( 100%/11)); 
+  grid-template-rows: repeat(6, calc( 100%/6)); 
+  gap: 0px 0px; 
+  
+  /* border-radius: 5px; */
+
+  background-image: url("imgs/bg_multitouch.svg");
+}
+
+#mat .mat_cell {
+    border: 0px solid var(--main-color);
+    background-color: var(--highlight-color);
+    opacity: 0;
+    margin: 1%;
+    /* border-radius: 10%; */
+     -webkit-transition: 0.5s;
+    transition: opacity 0.5s;
+}
+
+#keypad {
+    /* variables */
+    --button-radius: 50%;
+    --gap-h: 6.66%;
+    --gap-w: 10%;
+    
+    display: grid; 
+    grid-template-columns: repeat(3, calc( (100% - 2*var(--gap-w))/3) );  /* calculates width % that each button takes, depending on gap variable. repets 3x for 3 button collumns*/
+    grid-template-rows: repeat(4, calc(100% - 2*var(--gap-h))/4 ); 
+    
+    gap: var(--gap-h) var(--gap-w) ;
+}
+
+#keypad div {
+  border-radius: var(--button-radius);
+  border: var(--border-width) solid var(--main-color);
+  text-align: center;
+
+  font-size: calc(var(--main-width)*0.025);
+
+  /* this 4 lines is what you need these days for vertical align */
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  
+  -webkit-transition: 0.5s;
+  transition: opacity 0.5s;
+}
+
+.key-active {
+  background-color: var(--highlight-color);
+  -webkit-transition: 0.5s;
+  transition: opacity 0.5s;
+}
+
+#kp_0{
+  grid-column: span 2;
+  padding-left: 55%;
+  border-radius: calc(var(--button-radius)/2)/var(--button-radius) !important;
+}
+
+#touchpad{
+  background-image: url("imgs/bg_forcepad.svg");
+}
+
+#press{
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  position:relative;
+  top: 35px;
+  left: 595px;
+  
+  
+  background-color: var(--highlight-color);
+  border-radius: 50%;
+  z-index: -10;
+}
+
+
+#tp_canvas { grid-area: canvas;
+    /* border: 2px solid #B5EAD7; */
+    overflow: hidden !important;
+    z-index:99;
+    height: 100%;
+}
+
+#tp {
+	font-smooth: never;
+	-webkit-font-smoothing : none;
+}
+
+/* LAYOUT grid.layoutit.com?id=FSDDXNh */
+.container * {
+  position: relative;
+}
+
+.container {  
+  display: grid;
+  grid-template-columns: 61% 10% 25%; /* LAYOUT */
+  grid-template-rows: 45% 5% 45% 5%;
+  gap: 0% 0%;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "multitouch-box . keypad-box"
+    "multitouch-label . keypad-label"
+    "forcepad-box . bottomRight-box"
+    "forcepad-label . bottomRight-label";
+}
+
+.multitouch-box { grid-area: multitouch-box; }
+
+.keypad-box { grid-area: keypad-box; }
+
+.multitouch-label { grid-area: multitouch-label; 
+position:relative;
+top: -80%;
+left: 2%;
+z-index: 100;
+}
+
+.forcepad-box { grid-area: forcepad-box; }
+
+.forcepad-label { grid-area: forcepad-label; 
+  position:relative;
+  top: -80%;
+  left: 2%;
+  z-index: 100;
+}
+
+.keypad-label { grid-area: keypad-label; 
+padding-top: 7%;
+}
+
+.bottomRight-box {  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "slider-box slider-box"
+    "power-box logo-box";
+  grid-area: bottomRight-box;
+}
+
+.slider-box { grid-area: slider-box; }
+
+#slider input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0px;
+  
+  /* -webkit-transition: 0.5s; */
+  /* transition: opacity 1s; */
+
+  box-sizing: border-box; 
+  border-top: solid;  
+  border-width: var(--border-width);
+  border-color: var(--main-color);
+}
+
+#slider{
+  top:45%
+}
+
+.slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--main-color);
+  appearance: none;
+  width: calc( var(--main-width)*0.025 );
+  height: calc( var(--main-width)*0.025 );
+  background: var(--bg-color);
+  cursor: pointer;
+}
+
+.highlight{
+  background: var(--highlight-color) !important;
+}
+
+.slider-label {
+  position: relative;
+  padding-top: 10%;
+}
+
+.power-box { grid-area: power-box; }
+
+#power {
+  stroke-width: var(--border-width);
+  stroke: var(--main-color);
+
+  position: relative;
+  top: 8%;
+
+  /* padding: 10%; */
+  width: 80%;
+  height: auto;
+
+  fill:none;
+  stroke-linecap:round;
+  stroke-miterlimit:10;
+}
+
+#power-label{
+top:16%
+}
+
+.logo-box { grid-area: logo-box; }
+
+
+.bottomRight-label { grid-area: bottomRight-label; 
+
+}
+
+#logo{
+  width: 90%;
+  top: 79%;
+  left: 10%;
+}
+
+html, body , .container {
+  height: 100%;
+  margin: 0;
+}
+
+/* For presentation only, no need to copy the code below */
+
+/* .container * {
+  border: 0.1px solid grey;
+  z-index: -50;
+} */
+
+/* .container *:after {
+  content:attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  z-index: -50;
+} */
+
+
+
+/* FONTS */
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Bold.woff2') format('woff2'),
+      url('../fonts/DINPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Medium.woff2') format('woff2'),
+      url('../fonts/DINPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Black.woff2') format('woff2'),
+      url('../fonts/DINPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Light.woff2') format('woff2'),
+      url('../fonts/DINPro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
