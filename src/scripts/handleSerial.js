@@ -5,12 +5,12 @@ const _model = {
   keypad: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   touchpad: { x: 0, y: 0, z: 0 },
   mat: [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ],
   power: false
 }
@@ -137,13 +137,13 @@ function process (line) {
       for (let i = 0; i < 11; i++) { _model.keypad[i] = !!((args[0] & (1 << i))) }
       try { update_keypad() } catch (error) { console.log(error) }
       break
-      // case 'T':
-      //     _model.touchpad.x = args[0];
-      //     _model.touchpad.y = args[1];
-      //     _model.touchpad.z = args[2];
-      //     try { update_touchpad();}
-      //     catch (error) { console.log(error) }
-      //     break;
+      case 'T':
+          _model.touchpad.x = args[0];
+          _model.touchpad.y = args[1];
+          _model.touchpad.z = args[2];
+          try { update_touchpad();}
+          catch (error) { console.log(error) }
+          break;
     case 'C':
       for (let i = 0; i < 6; i++) { _model.mat[i][subcmd - 1] = args[i] }
       try { update_mat(subcmd - 1) } catch (error) { console.log(error) }
@@ -160,15 +160,6 @@ function process (line) {
 function update_mat (c) { // c (column) is an array - one number per line
   // console.log(_model.mat)
 
-  // calculated in multitouch_calc.js
-  const mat_normalise_multiplier = [
-    [1, 1.58, 1.82, 1.78, 3.15, 4.32, 4.1, 5.86, 5.86, 6.83, 4.32],
-    [2.56, 3.15, 3.28, 4.1, 4.82, 5.47, 8.2, 6.83, 9.11, 7.45, 6.31],
-    [3.73, 5.13, 5.86, 5.86, 8.2, 9.11, 9.11, 9.11, 10.25, 13.67, 7.45],
-    [5.47, 6.83, 7.45, 7.45, 7.45, 8.2, 6.83, 9.11, 7.45, 13.67, 8.2],
-    [5.47, 7.45, 8.2, 7.45, 8.2, 10.25, 10.25, 10.25, 10.25, 10.25, 10.25],
-    [6.31, 7.45, 8.2, 9.11, 10.25, 9.11, 8.2, 10.25, 11.71, 9.11, 10.25]
-  ]
   const mat_gain = 6
   const mat_threshold = 5
 
@@ -176,8 +167,7 @@ function update_mat (c) { // c (column) is an array - one number per line
     const d = document.getElementById('mat_L' + i + 'C' + c)
     const x = _model.mat[i][c]
 
-    // OPACITY with normalisation and gain
-    d.style.opacity = x > mat_threshold ? (x / 255) * mat_normalise_multiplier[i][c] * mat_gain : 0 // opacity is 0 unless X is over threshod
+    d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0
 
     // OPACITY 100% over threhold
     // d.style.opacity = x > mat_threshold ? 1 : 0
@@ -187,6 +177,9 @@ function update_mat (c) { // c (column) is an array - one number per line
 }
 
 function update_touchpad () {
+  console.log(_model.touchpad)
+  const touchpad_threshold = 5
+
   const canvas = document.getElementById('tp_canvas')
   const press = document.getElementById('press')
 
@@ -203,9 +196,17 @@ function update_touchpad () {
   // press is a div inside the tp_canvas div representing position and force of pressure on the physical sensor
   press.style.top = posy - (sizez / 2) // offset by a half of the size => center in the middle of press
   press.style.left = posx - (sizez / 2)
-  press.style.width = sizez
-  press.style.height = sizez
-  press.style.opacity = 1
+  
+  if(z > touchpad_threshold){
+    press.style.width = sizez
+    press.style.height = sizez
+    press.style.opacity = z
+  } else {
+    press.style.width = 0
+    press.style.height = 0
+    press.style.opacity = 0
+  }
+  
 }
 
 function update_keypad () { // OK
