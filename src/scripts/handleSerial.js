@@ -229,8 +229,9 @@ function update_keypad() { // OK
 }
 
 function update_slider() { // OK
-  sliderBuffer.addValue(_model.slider) // add the latest reading
-  const avgVal = sliderBuffer.getStableAvg() // averaged buffer
+  // sliderBuffer.addValue(_model.slider) // add the latest reading
+  // const avgVal = sliderBuffer.getStableAvg() // averaged buffer
+  
   const s = document.getElementById('slider-input')
   const sVal = parseInt(s.value)
   const sMin = parseInt(s.min)
