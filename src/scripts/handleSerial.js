@@ -19,18 +19,18 @@ const _model = {
 
 // defines a stream processor which extracts lines of text delimited by '\r\n'
 class LineBreakTransformer {
-  constructor () {
+  constructor() {
     this.container = ''
   }
 
-  transform (chunk, controller) {
+  transform(chunk, controller) {
     this.container += chunk
     const lines = this.container.split('\r\n')
     this.container = lines.pop()
     lines.forEach(line => controller.enqueue(line))
   }
 
-  flush (controller) {
+  flush(controller) {
     controller.enqueue(this.container)
   }
 }
@@ -41,7 +41,7 @@ class Buffer {
   > stableAvg gets updated when all values are within +-volatility of the most recent value
       => eliminates 'sliding' between major value state changes
   */
-  constructor (size, volatility = 10) {
+  constructor(size, volatility = 10) {
     this.size = size // how many values to keep
     this.volatility = volatility // how much can values by off to be considered 'stable'
 
@@ -50,7 +50,7 @@ class Buffer {
   }
 
   // add value
-  addValue (val) {
+  addValue(val) {
     if (this.values.length >= this.size) {
       this.values.shift() // if the buffer is full, delet the first (oldest) value
     }
@@ -58,11 +58,11 @@ class Buffer {
   }
 
   // get average of the buffer as rounded Int
-  getAvgInt () {
+  getAvgInt() {
     return Math.round(_.mean(this.values))
   }
 
-  getStableAvg () {
+  getStableAvg() {
     // if all values are within 'volatility'
     // check if lenght of .values filtered by volatility range == lenght of unfiltered .values
 
@@ -81,7 +81,7 @@ class Buffer {
 const sliderBuffer = new Buffer(3)
 
 // process a line received over serial
-function process (line) {
+function process(line) {
   // console.log(line)
 
   // lines are in the form:
@@ -124,7 +124,7 @@ function process (line) {
   try {
     args = args.map(e => parseInt(e, 16))
   } catch (e) {
-    	return // illegal arg
+    return // illegal arg
   }
 
   // act depending on first character of command
@@ -137,27 +137,31 @@ function process (line) {
       for (let i = 0; i < 11; i++) { _model.keypad[i] = !!((args[0] & (1 << i))) }
       try { update_keypad() } catch (error) { console.log(error) }
       break
-      case 'T':
-          _model.touchpad.x = args[0];
-          _model.touchpad.y = args[1];
-          _model.touchpad.z = args[2];
-          try { update_touchpad();}
-          catch (error) { console.log(error) }
-          break;
+    case 'T':
+      _model.touchpad.x = args[0];
+      _model.touchpad.y = args[1];
+      _model.touchpad.z = args[2];
+      try { update_touchpad(); }
+      catch (error) { console.log(error) }
+      break;
     case 'C':
       for (let i = 0; i < 6; i++) { _model.mat[i][subcmd - 1] = args[i] }
-      try { update_mat(subcmd - 1) } catch (error) { console.log(error) }
+      try { update_mat(subcmd - 1) } catch (error) { 
+        // console.log(error) 
+      }
       break
     case 'P':
       _model.power = args[0] != 0
-      try { update_power() } catch (error) { console.log(error) }
+      try { update_power() } catch (error) { 
+        // console.log(error) 
+      }
       break
   }
 }
 
 // ELEMENT UPDATE FUNCTIONS //////////////////////////////////
 
-function update_mat (c) { // c (column) is an array - one number per line
+function update_mat(c) { // c (column) is an array - one number per line
   // console.log(_model.mat)
 
   const mat_gain = 6
@@ -167,17 +171,21 @@ function update_mat (c) { // c (column) is an array - one number per line
     const d = document.getElementById('mat_L' + i + 'C' + c)
     const x = _model.mat[i][c]
 
-    d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0
+    // OPACITY A: 0 up to threshod, then linear mulitplied by gain value
+    // d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0
 
-    // OPACITY 100% over threhold
+    // OPACITY B: 100% over threhold
     // d.style.opacity = x > mat_threshold ? 1 : 0
 
-    // d.innerText = d.style.opacity
+    // OPACITY C: log 106*(0.7+log10(x/5))
+    d.style.opacity = 106*(0.7+Math.log10(x/5)) / 255
+
+    d.innerText = Math.round(d.style.opacity * 100) / 100
   }
 }
 
-function update_touchpad () {
-  console.log(_model.touchpad)
+function update_touchpad() {
+  // console.log(_model.touchpad)
   const touchpad_threshold = 5
 
   const canvas = document.getElementById('tp_canvas')
@@ -196,8 +204,8 @@ function update_touchpad () {
   // press is a div inside the tp_canvas div representing position and force of pressure on the physical sensor
   press.style.top = posy - (sizez / 2) // offset by a half of the size => center in the middle of press
   press.style.left = posx - (sizez / 2)
-  
-  if(z > touchpad_threshold){
+
+  if (z > touchpad_threshold) {
     press.style.width = sizez
     press.style.height = sizez
     press.style.opacity = z
@@ -206,10 +214,10 @@ function update_touchpad () {
     press.style.height = 0
     press.style.opacity = 0
   }
-  
+
 }
 
-function update_keypad () { // OK
+function update_keypad() { // OK
   for (let i = 0; i < 11; i++) {
     const k = document.getElementById('kp_' + i)
     if (_model.keypad[i]) {
@@ -220,14 +228,14 @@ function update_keypad () { // OK
   }
 }
 
-function update_slider () { // OK
+function update_slider() { // OK
   sliderBuffer.addValue(_model.slider) // add the latest reading
   const avgVal = sliderBuffer.getStableAvg() // averaged buffer
   const s = document.getElementById('slider-input')
   const sVal = parseInt(s.value)
   const sMin = parseInt(s.min)
   const sMax = parseInt(s.max)
-  const margin = 4 // don't set new value if it's within from the last one => smooth out the visualisation
+  const margin = 4 // don't set new value if it's within [margin] from the last one => smooth out the visualisation
   const touchMin = 5 // if reading is bellow, finger is lifted
 
   // HTML range is 100-220, these values are withing the printed slider graphic
@@ -262,7 +270,7 @@ function update_slider () { // OK
   }
 }
 
-function update_power () { // OK
+function update_power() { // OK
   // if (_model.power) {
   //   document.querySelector('.power-box').style.backgroundColor = 'var(--highlight-color)'
   // } else {
