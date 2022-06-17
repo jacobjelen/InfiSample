@@ -232,43 +232,47 @@ function update_slider() { // OK
   // sliderBuffer.addValue(_model.slider) // add the latest reading
   // const avgVal = sliderBuffer.getStableAvg() // averaged buffer
   
+  console.log(_model.slider)
+
   const s = document.getElementById('slider-input')
-  const sVal = parseInt(s.value)
-  const sMin = parseInt(s.min)
-  const sMax = parseInt(s.max)
-  const margin = 4 // don't set new value if it's within [margin] from the last one => smooth out the visualisation
-  const touchMin = 5 // if reading is bellow, finger is lifted
+  s.value = _model.slider
+
+  // const sVal = parseInt(s.value)
+  // const sMin = parseInt(s.min)
+  // const sMax = parseInt(s.max)
+  // const margin = 4 // don't set new value if it's within [margin] from the last one => smooth out the visualisation
+  // const touchMin = 5 // if reading is bellow, finger is lifted
 
   // HTML range is 100-220, these values are withing the printed slider graphic
-  if (_model.slider < touchMin) {
-    // finger is off
-  } else if (_model.slider < sMin) {
-    // finger is below minimum
-    s.value = sMin
-  } else if (_model.slider < sMax) {
-    // finger is on the slider
-    // Eliminate reading noise, use margin
-    if (!_.inRange(_model.slider, sVal - margin, sVal + margin)) {
-      s.value = _model.slider
-    }
-  } else if (_model.slider > sMax) {
-    // finger is past maximum
-    s.value = sMax
+  // if (_model.slider < touchMin) {
+  //   // finger is off
+  // } else if (_model.slider < sMin) {
+  //   // finger is below minimum
+  //   s.value = sMin
+  // } else if (_model.slider < sMax) {
+  //   // finger is on the slider
+  //   // Eliminate reading noise, use margin
+  //   if (!_.inRange(_model.slider, sVal - margin, sVal + margin)) {
+  //     s.value = _model.slider
+  //   }
+  // } else if (_model.slider > sMax) {
+  //   // finger is past maximum
+  //   s.value = sMax
   }
 
-  // Set style based on raw value
-  if (_model.slider < touchMin) {
-    // finger is off
-    s.style.borderColor = 'var(--main-color)'
-  } else if (_model.slider < sMin) {
-    // finger is below minimum
-    s.style.borderColor = 'var(--main-color)'
-  } else if (_model.slider < sMax) {
-    // finger is on the slider
-    s.style.borderColor = 'var(--highlight-color)'
-  } else if (_model.slider > sMax) {
-    s.style.borderColor = 'var(--main-color)'
-  }
+  // // Set style based on raw value
+  // if (_model.slider < touchMin) {
+  //   // finger is off
+  //   s.style.borderColor = 'var(--main-color)'
+  // } else if (_model.slider < sMin) {
+  //   // finger is below minimum
+  //   s.style.borderColor = 'var(--main-color)'
+  // } else if (_model.slider < sMax) {
+  //   // finger is on the slider
+  //   s.style.borderColor = 'var(--highlight-color)'
+  // } else if (_model.slider > sMax) {
+  //   s.style.borderColor = 'var(--main-color)'
+  // }
 }
 
 function update_power() { // OK
