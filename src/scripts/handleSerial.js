@@ -240,18 +240,18 @@ function update_slider() { // OK
   const touchMin = 5 // if reading is bellow, finger is lifted
 
   // HTML range is 100-220, these values are withing the printed slider graphic
-  if (avgVal < touchMin) {
+  if (_model.slider < touchMin) {
     // finger is off
-  } else if (avgVal < sMin) {
+  } else if (_model.slider < sMin) {
     // finger is below minimum
     s.value = sMin
-  } else if (avgVal < sMax) {
+  } else if (_model.slider < sMax) {
     // finger is on the slider
     // Eliminate reading noise, use margin
-    if (!_.inRange(avgVal, sVal - margin, sVal + margin)) {
-      s.value = avgVal
+    if (!_.inRange(_model.slider, sVal - margin, sVal + margin)) {
+      s.value = _model.slider
     }
-  } else if (avgVal > sMax) {
+  } else if (_model.slider > sMax) {
     // finger is past maximum
     s.value = sMax
   }
