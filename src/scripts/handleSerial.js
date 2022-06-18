@@ -258,7 +258,7 @@ function update_slider() { // OK
   // } else if (_model.slider > sMax) {
   //   // finger is past maximum
   //   s.value = sMax
-  }
+  // }
 
   // // Set style based on raw value
   // if (_model.slider < touchMin) {
