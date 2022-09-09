@@ -15,8 +15,6 @@ const _model = {
   power: false
 }
 
-last_slider = 0;
-
 // CUSTOM CLASSES / OBJECTS
 
 // defines a stream processor which extracts lines of text delimited by '\r\n'
@@ -170,7 +168,7 @@ function update_mat(c) { // c - index of a column
       d.style.opacity = log
       d.innerText = Math.round(log * 100) / 100
 
-      console.log(`raw: ${x} :\t conv: ${rnd2(converted)} :\t log: ${rnd2(log)}  :\t max: ${max}`)
+      // console.log(`[${i},${c}]  raw: ${x} :\t conv: ${rnd2(converted)} :\t log: ${rnd2(log)}  :\t max: ${max}`)
 
   // } // test if 0,0
   }
@@ -220,17 +218,21 @@ function update_keypad() { // OK
   }
 }
 
+let last_slider = 0;
 function update_slider() { // OK
 
   const s = document.getElementById('slider-input')
   s.value = _model.slider
-  console.log(_model.slider)
+  console.log(`last slider: ${last_slider} \t current: ${_model.slider}`)
 
+  // CHANGIN COLOUR OF THE SLIDER WHEN PRESSED
   // if(last_slider != _model.slider){
-  //   s.style.backgroundColor = 'var(--highlight-color)'
+  //   document.documentElement.style.setProperty('--slider-thumb-color', 'var(--highlight-color)')
   //   last_slider = _model.slider
+  //   console.log('touch color')
   // } else {
-  //   s.style.backgroundColor = 'none'
+  //   document.documentElement.style.setProperty('--slider-thumb-color', 'var(--bg-color)')
+  //   console.log('release')
   // }
 }
 

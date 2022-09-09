@@ -2,10 +2,10 @@
   --main-color: white;
   --highlight-color: #ff5500;
   --bg-color: #363636;
-
+  --slider-thumb-color: var(--bg-color);
   --infi-orange: #F46A24;
 
-  --transition: 0.1s;   /* default: 0.5s  */
+  --transition: 0.2s;   /* default: 0.5s  */
 
   /* set by resize.js */
   --main-width: 900px;
@@ -329,7 +329,8 @@ padding-top: 7%;
   appearance: none;
   width: calc( var(--main-width)*0.025 );
   height: calc( var(--main-width)*0.025 );
-  background: var(--bg-color);
+  background: var(--slider-thumb-color);
+  transition: 1s;
   cursor: pointer;
 }
 
