@@ -10,4 +10,4 @@ This demo software should acompany Infi-tex printed pressure sensor sampler. For
 4. Touch or press the Sampler and see it in action on your screen.
 
 Troubleshooting:
-- Make sure you have ```Experimental Web Platform Features``` enabled: [chrome://flags/#enable-experimental-web-platform-features](chrome://flags/#enable-experimental-web-platform-features)
+- Make sure you have ```Experimental Web Platform Features``` enabled. To do so, open this link in your Chrome Browser: ```chrome://flags/#enable-experimental-web-platform-features```
