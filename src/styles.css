@@ -5,7 +5,7 @@
 
   --infi-orange: #F46A24;
 
-  --transition: 0s;   /* default: 0.5s  */
+  --transition: 0.1s;   /* default: 0.5s  */
 
   /* set by resize.js */
   --main-width: 900px;
@@ -309,8 +309,8 @@ padding-top: 7%;
   width: 100%;
   height: 0px;
   
-  /* -webkit-transition: var(--transition); */
-  /* transition: opacity var(--transition); */
+  -webkit-transition: var(--transition);
+  transition: opacity var(--transition);
 
   box-sizing: border-box; 
   border-top: solid;  

@@ -15,6 +15,8 @@ const _model = {
   power: false
 }
 
+last_slider = 0;
+
 // CUSTOM CLASSES / OBJECTS
 
 // defines a stream processor which extracts lines of text delimited by '\r\n'
@@ -35,50 +37,20 @@ class LineBreakTransformer {
   }
 }
 
-class Buffer {
-  /*  bufferes a specifies number of values
-  > avgInt returns the average of the buffered values => smooths out streaming data
-  > stableAvg gets updated when all values are within +-volatility of the most recent value
-      => eliminates 'sliding' between major value state changes
-  */
-  constructor(size, volatility = 10) {
-    this.size = size // how many values to keep
-    this.volatility = volatility // how much can values by off to be considered 'stable'
+// scale a value from one range to another. 
+function convertRange(value, inMin, inMax, outMin, outMax) {
+  const result = (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 
-    this.values = []
-    this.stableAvg = null
+  if (result < outMin) {
+    return outMin;
+  } else if (result > outMax) {
+    return outMax;
   }
 
-  // add value
-  addValue(val) {
-    if (this.values.length >= this.size) {
-      this.values.shift() // if the buffer is full, delet the first (oldest) value
-    }
-    this.values.push(val) // add value to the end
-  }
-
-  // get average of the buffer as rounded Int
-  getAvgInt() {
-    return Math.round(_.mean(this.values))
-  }
-
-  getStableAvg() {
-    // if all values are within 'volatility'
-    // check if lenght of .values filtered by volatility range == lenght of unfiltered .values
-
-    if (this.values.length === this.values.filter(val =>
-      _.inRange(
-        val,
-        _.last(this.values) - this.volatility,
-        _.last(this.values) + this.volatility)).length
-    ) {
-      this.stableAvg = Math.round(_.mean(this.values))
-    }
-    return this.stableAvg
-  }
+  return result;
 }
 
-const sliderBuffer = new Buffer(3)
+function rnd2(n) {return Math.round(n * 100) / 100; } //round down to 2 decimals
 
 // process a line received over serial
 function process(line) {
@@ -160,33 +132,53 @@ function process(line) {
 }
 
 // ELEMENT UPDATE FUNCTIONS //////////////////////////////////
-
-function update_mat(c) { // c (column) is an array - one number per line
+let max = 0
+let maxlog = 0
+function update_mat(c) { // c - index of a column
   // console.log(_model.mat)
 
   const mat_gain = 6
-  const mat_threshold = 5
 
   for (let i = 0; i < 6; i++) {
     const d = document.getElementById('mat_L' + i + 'C' + c)
     const x = _model.mat[i][c]
 
-    // OPACITY A: 0 up to threshod, then linear mulitplied by gain value
+    // if (i== 0 && c==0){
+      if (x > max){ max = x } // remember maximum measured value
+      
+  // OPACITY A: 0 up to threshod, then linear mulitplied by gain value
     // d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0
 
-    // OPACITY B: 100% over threhold
+  // OPACITY B: binary =>100% over threhold
     // d.style.opacity = x > mat_threshold ? 1 : 0
 
-    // OPACITY C: log 106*(0.7+log10(x/5))
-    d.style.opacity = 106*(0.7+Math.log10(x/5)) / 255
+  // OPACITY C: log 106*(0.7+log10(x/5))
+    // const log = 106*(0.7+Math.log10(x/5)) // 255
+    // if (log > maxlog){ maxlog = log} // remember maximum measured value
+    // const converted = convertRange(log, 225, 240, 0, 1)
+    // console.log(`[${i},${c}]  raw: ${x} \t log: ${rnd2(log)}  \t maxlog: ${rnd2(maxlog)}`)
+    // d.style.opacity = converted
+    // d.innerText = rnd2(d.style.opacity)
 
-    d.innerText = Math.round(d.style.opacity * 100) / 100
+  // OPACITY D: RAW => CONVERT => LOG
+      const mat_threshold = 50 // anything below is considered noise and is ignored
+      const mat_cutoff = 200    // considered as maximum value that can be achieved by pressure
+      
+      const converted = convertRange(x, mat_threshold, mat_cutoff, 1, 255) // raw between treshold and cutoff scaled to 0-255
+      const log = 106*(0.7+Math.log10(converted/5)) / 255                  // plots converted values logarithmically between 0 and 1
+      
+      d.style.opacity = log
+      d.innerText = Math.round(log * 100) / 100
+
+      console.log(`raw: ${x} :\t conv: ${rnd2(converted)} :\t log: ${rnd2(log)}  :\t max: ${max}`)
+
+  // } // test if 0,0
   }
 }
 
 function update_touchpad() {
-  // console.log(_model.touchpad)
-  const touchpad_threshold = 5
+  const touchpad_threshold = 450
+  const size_gain = 200 // how much the cicle grows with pressure
 
   const canvas = document.getElementById('tp_canvas')
   const press = document.getElementById('press')
@@ -197,7 +189,7 @@ function update_touchpad() {
 
   const posx = x / 4095 * canvas.clientWidth
   const posy = y / 4095 * canvas.clientHeight
-  const sizez = z / 4095 * 32
+  const sizez = z / 4095 * size_gain
 
   // console.log(`x: ${posx}  y: ${posy}  z: ${sizez}`)
 
@@ -229,49 +221,16 @@ function update_keypad() { // OK
 }
 
 function update_slider() { // OK
-  // sliderBuffer.addValue(_model.slider) // add the latest reading
-  // const avgVal = sliderBuffer.getStableAvg() // averaged buffer
-  
-  console.log(_model.slider)
 
   const s = document.getElementById('slider-input')
   s.value = _model.slider
+  console.log(_model.slider)
 
-  // const sVal = parseInt(s.value)
-  // const sMin = parseInt(s.min)
-  // const sMax = parseInt(s.max)
-  // const margin = 4 // don't set new value if it's within [margin] from the last one => smooth out the visualisation
-  // const touchMin = 5 // if reading is bellow, finger is lifted
-
-  // HTML range is 100-220, these values are withing the printed slider graphic
-  // if (_model.slider < touchMin) {
-  //   // finger is off
-  // } else if (_model.slider < sMin) {
-  //   // finger is below minimum
-  //   s.value = sMin
-  // } else if (_model.slider < sMax) {
-  //   // finger is on the slider
-  //   // Eliminate reading noise, use margin
-  //   if (!_.inRange(_model.slider, sVal - margin, sVal + margin)) {
-  //     s.value = _model.slider
-  //   }
-  // } else if (_model.slider > sMax) {
-  //   // finger is past maximum
-  //   s.value = sMax
-  // }
-
-  // // Set style based on raw value
-  // if (_model.slider < touchMin) {
-  //   // finger is off
-  //   s.style.borderColor = 'var(--main-color)'
-  // } else if (_model.slider < sMin) {
-  //   // finger is below minimum
-  //   s.style.borderColor = 'var(--main-color)'
-  // } else if (_model.slider < sMax) {
-  //   // finger is on the slider
-  //   s.style.borderColor = 'var(--highlight-color)'
-  // } else if (_model.slider > sMax) {
-  //   s.style.borderColor = 'var(--main-color)'
+  // if(last_slider != _model.slider){
+  //   s.style.backgroundColor = 'var(--highlight-color)'
+  //   last_slider = _model.slider
+  // } else {
+  //   s.style.backgroundColor = 'none'
   // }
 }
 
