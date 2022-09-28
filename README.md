@@ -2,8 +2,6 @@
 
 This demo software should acompany Infi-tex printed pressure sensor sampler. For orders and more information visit [Infi-tex.com](http://www.infi-tex.com/)
 
-[https://infitex-sample.netlify.app/](https://infitex-sample.netlify.app/)
-
 ## Instructions:
 You can run this software **online** or **on your computer**.
 
