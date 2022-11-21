@@ -104,7 +104,7 @@
   position: relative;
 }
 
-.container {  
+#sample-container{  
   display: grid;
   grid-template-columns: 56% 10% 25%; /* LAYOUT */
   grid-template-rows: 45% 5% 45% 5%;

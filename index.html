@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Infi-tex Sample</title>
-          <link rel="icon" type="image/x-icon" href="/src/imgs/infi.ico">
+        <link rel="icon" type="image/x-icon" href="/src/imgs/infi.ico">
 
 
         <!-- GRID LAYOUT HERE: grid.layoutit.com?id=FSDDXNh -->
@@ -14,13 +14,13 @@
         <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
         <script src='./src/scripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
         <script src='./src/scripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
-
-
     </head>
 
     <body>
         <div id="serial">
-            <div id="connect" class="connect-error" role="button"> Connect </div>
+            <div id="connect" class="connect-error" role="button"> 
+                Connect
+            </div>
             <!-- HTML !-->
 
             <div id="notSupported">
@@ -30,20 +30,19 @@
                     <li>Infi-Tex Sampler is connected to USB</li>
                     <li>You are using <b>Chrome</b> browser</li>
                     <li>Experimental Web Platform features are enabled here:
-                        <a href="chrome://flags/#enable-experimental-web-platform-features" target="_blank">chrome://flags/#enable-experimental-web-platform-features</a></li> 
+                        <a
+                            href="chrome://flags/#enable-experimental-web-platform-features"
+                            target="_blank">chrome://flags/#enable-experimental-web-platform-features</a>
                     </li>
 
                 </ul>
-                </div>
+            </div>
         </div>
 
 
-
-        
-
         <!-- // MAIN //////////////////////////////////////////// -->
         <main id="main">
-            <div class="container">
+            <div id="sample-container" class="container">
 
                 <div id="mat" class="multitouch-box border bg-texture">
                     <!-- auto generatred by js -->
@@ -75,7 +74,8 @@
                     <!-- SLIDER -->
                     <div class="slider-box">
                         <div id="slider">
-                            <input id="slider-input" data="sliderInput" class="slider" type="range"
+                            <input id="slider-input" data="sliderInput"
+                                class="slider" type="range"
                                 min="20" max="165" value="0" disabled="true" />
                             <div class="slider-label label">Slider</div>
 
@@ -84,29 +84,25 @@
 
                     <div class="power-box">
 
-                        <svg id="power" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 52.35 57.55">
+                        <svg id="power" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.35 57.55">
+                            <path class="a" d="M20.34,5.83a25.13,25.13,0,1,0,11.31,0" />
+                            <path class="a" d="M26,18.69V1" />
+                        </svg>
 
-                            <path class="a"
-                                d="M20.34,5.83a25.13,25.13,0,1,0,11.31,0" />
-                                <path class="a" d="M26,18.69V1" />
-                                </svg>
+                        <div id="power-label" class="label">
+                            Button
+                        </div>
+                    </div> <!-- power-box  -->
 
-                                <div id="power-label" class="label">Button</div>
-                            </div> <!-- power-box  -->
+                    <div class="logo-box">
+                        <a href="http://www.infi-tex.com/" target="_blank">
+                            <img id="logo" src="./src/imgs/logo-infi-tex.svg">
+                        </a>
 
-                            <div class="logo-box">
-                                <a href="http://www.infi-tex.com/" target="_blank">
-                                    <img id="logo" src="./src/imgs/logo-infi-tex.svg">
-                                </a>
-                                
-                            </div>
-
-                        </div> <!-- bottom-right-box  -->
-
-                    </div> <!-- container  -->
-                </main>
-
-            </body>
-
-        </html>
+                    </div> <!-- logo-box  -->
+                    
+                </div> <!-- bottom-right-box  -->
+            </div> <!-- container  -->
+        </main>
+    </body>
+</html>
