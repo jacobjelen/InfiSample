@@ -1,0 +1,176 @@
+:root{
+  --main-color: white;
+  --highlight-color: #ff5500;
+  --bg-color: #363636;
+  --slider-thumb-color: var(--bg-color);
+  --infi-orange: #F46A24;
+
+  --transition: 0.2s;   /* default: 0.5s  */
+
+  /* set by resize.js */
+  --main-width: 900px;
+  --main-height: 666px;
+
+  --border-width: 1px;
+  --keypad-font-size: 9px;
+  --label-font-size: calc( var(--main-width)*0.018);
+
+  color:var(--main-color);
+  background-color:var(--bg-color);
+  font-size: var(--label-font-size);
+
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+
+  box-sizing: border-box; /* to have the border line on the div inside */
+
+}
+
+/* CONNECT BUTTON for WebSerial */
+#serial{
+  z-index: 99999;
+}
+
+#serial a{
+  color: var(--highlight-color);
+  text-decoration: none;
+}
+
+#connect{
+  position:absolute;
+  padding: 5px 10px;
+  margin: 10px;
+  width: auto;
+
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+  background-color: var(--bg-color);
+  border: solid 1px white;
+  border-radius: 3px;
+}
+
+#connect:hover{
+  color: var(--main-color);
+  border-color: var(--main-color) !important;
+  cursor: pointer;
+}
+
+.connect-ok{
+  color: grey;
+  border: 0px !important;
+  border-color: grey !important;
+}
+
+.connect-error{
+  color: var(--highlight-color);
+  border-color: var(--highlight-color) !important;
+}
+
+#notSupported{
+  display: block;
+  
+  width: clamp(100px, 100%, 300px);
+
+  position:absolute;
+  margin: 10px;
+  top: 5%;
+
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  /* background-color: grey; */
+}
+
+#notSupported li{
+  margin: 10px 0px
+}
+
+
+/* GENERAL */
+
+.border{
+  border: var(--border-width) solid var(--main-color) !important;
+}
+
+.label{
+position: relative;
+opacity: 1
+}
+
+.hidden{
+  display: none !important;
+}
+
+.bg-texture{
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* MAIN */
+main{
+  width: var(--main-width);
+  height: var(--main-height);
+
+  /* background: gray; */
+
+  position: absolute;
+  top: 53%; 
+  left: 52%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+
+html, body , .container {
+  height: 100%;
+  margin: 0;
+}
+
+
+/* FONTS */
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Bold.woff2') format('woff2'),
+      url('../fonts/DINPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Medium.woff2') format('woff2'),
+      url('../fonts/DINPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Black.woff2') format('woff2'),
+      url('../fonts/DINPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  src: url('../fonts/DINPro-Light.woff2') format('woff2'),
+      url('../fonts/DINPro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
