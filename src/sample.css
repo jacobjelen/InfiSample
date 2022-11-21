@@ -1,3 +1,14 @@
+:root{
+  /* 
+  Set the desired size/aspect ration of <main>.
+  It might be different for sample, sole, etc... 
+
+  'resize.js' will resize it to always fit the screen and maintain the ratio
+  */
+  --main-width: 900px;
+  --main-height: 666px;
+}
+
 /* LAYOUT grid.layoutit.com?id=FSDDXNh */
 .container * {
   position: relative;
