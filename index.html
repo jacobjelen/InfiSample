@@ -7,8 +7,12 @@
 
 
         <!-- GRID LAYOUT HERE: grid.layoutit.com?id=FSDDXNh -->
-        <link rel="stylesheet" href="./src/general.css">
-        <link rel="stylesheet" href="./src/sample.css">
+        
+        <!-- <link rel="stylesheet" href="./src/sample.css"> -->
+        <link rel="stylesheet" href="./src/sole.css">
+        
+        <!-- GENERAL STYLE MUST BE INCLUDED LAST -->
+        <link rel="stylesheet" href="./src/general.css"> 
 
         <!-- SCRIPTS -->
         <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
@@ -42,66 +46,18 @@
 
         <!-- // MAIN //////////////////////////////////////////// -->
         <main id="main">
-            <div id="sample-container" class="container">
-
-                <div id="mat" class="multitouch-box border bg-texture">
-                    <!-- auto generatred by js -->
-                </div>
-
-                <div class="multitouch-label label"><span>Multitouch</span></div>
-                <div id="keypad" class="keypad-box">
-                    <div id="kp_7">7</div><div id="kp_8">8</div><div id="kp_9">9</div>
-                    <div id="kp_4">4</div><div id="kp_5">5</div><div id="kp_6">6</div>
-                    <div id="kp_1">1</div><div id="kp_2">2</div><div id="kp_3">3</div>
-                    <div id="kp_0">0</div><div id="kp_10">.</div>
-                </div>
-
-                <div class="keypad-label label">
-                    <span>Keyboard</span>
-                </div>
+            <div id="sole-container" class="container">
 
 
-                <div id="touchpad" class="forcepad-box border bg-texture">
+                <div id="sole" class="sole-box border bg-texture">
                     <div id="tp_canvas">
                         <div id="press"></div>
                     </div>
                 </div>
-
-                <div class="forcepad-label label"><span>Forcepad</span></div>
+                <div class="container"></div>
+                <div class="container"></div>
                 <!-- POWER & LINK -->
-                <div class="bottomRight-box">
-
-                    <!-- SLIDER -->
-                    <div class="slider-box">
-                        <div id="slider">
-                            <input id="slider-input" data="sliderInput"
-                                class="slider" type="range"
-                                min="20" max="165" value="0" disabled="true" />
-                            <div class="slider-label label">Slider</div>
-
-                        </div>
-                    </div>
-
-                    <div class="power-box">
-
-                        <svg id="power" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.35 57.55">
-                            <path class="a" d="M20.34,5.83a25.13,25.13,0,1,0,11.31,0" />
-                            <path class="a" d="M26,18.69V1" />
-                        </svg>
-
-                        <div id="power-label" class="label">
-                            Button
-                        </div>
-                    </div> <!-- power-box  -->
-
-                    <div class="logo-box">
-                        <a href="http://www.infi-tex.com/" target="_blank">
-                            <img id="logo" src="./src/imgs/logo-infi-tex.svg">
-                        </a>
-
-                    </div> <!-- logo-box  -->
-                    
-                </div> <!-- bottom-right-box  -->
+                
             </div> <!-- container  -->
         </main>
     </body>

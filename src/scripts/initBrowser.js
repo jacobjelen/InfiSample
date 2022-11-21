@@ -83,6 +83,9 @@ function fillMat () { // populate mat div with a div per cell
 // sets up the connect button to trigger serial selection, and
 // calling of the process() function on each received serial line
 window.onload = function () {
-  fillMat()
+  if (document.getElementById('mat') !== null) {
+    fillMat()
+  } // do nothing if mat (multitouch) is not present
+  
   serial_init()
 }

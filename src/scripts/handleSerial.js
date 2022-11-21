@@ -100,14 +100,17 @@ function process(line) {
   // act depending on first character of command
   switch (cmd) {
     case 'S':
+      if (document.getElementById('slider') === null) break
       _model.slider = args[0]
       try { update_slider() } catch (error) { console.log(error) }
       break
     case 'K':
+      if (document.getElementById('keypad') === null) break
       for (let i = 0; i < 11; i++) { _model.keypad[i] = !!((args[0] & (1 << i))) }
       try { update_keypad() } catch (error) { console.log(error) }
       break
     case 'T':
+      if (document.getElementById('touchpad') === null) break
       _model.touchpad.x = args[0];
       _model.touchpad.y = args[1];
       _model.touchpad.z = args[2];
@@ -115,12 +118,14 @@ function process(line) {
       catch (error) { console.log(error) }
       break;
     case 'C':
+      if (document.getElementById('mat') === null) break
       for (let i = 0; i < 6; i++) { _model.mat[i][subcmd - 1] = args[i] }
       try { update_mat(subcmd - 1) } catch (error) { 
         // console.log(error) 
       }
       break
     case 'P':
+      if (document.getElementById('power') === null) break
       _model.power = args[0] != 0
       try { update_power() } catch (error) { 
         // console.log(error) 
