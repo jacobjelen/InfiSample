@@ -1,3 +1,9 @@
+### ToDo:
+- sole display: mask + background
+- left/right sole
+- BLE
+- React
+
 ### Branches:
 Master - this was originaly developed to run independently using Electron, not in the browser
     Browser - build to run this in Chrome using it's 'Experimental Web Features'

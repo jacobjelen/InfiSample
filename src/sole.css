@@ -5,24 +5,27 @@
 
   'resize.js' will resize it to always fit the screen and maintain the ratio
   */
-  --main-width: 600px;
-  --main-height: 1000px;
+  --main-width: 444px;
+  --main-height: 697px;
 }
 
 
 #sole-container{  
   display: grid;
-  grid-template-columns: 45% 10% 45%; /* LAYOUT */
+  grid-template-columns: 50% 50%; /* LAYOUT */
   
   gap: 0% 0%;
   grid-auto-flow: row;
   grid-template-areas:
-    "sole-box . ."
+    "sole-box ."
 }
 
 
 #touchpad{
   background-image: url("imgs/bg_forcepad10x6.svg");
+  background-color: aquamarine;
+
+  
 }
 
 #press{
