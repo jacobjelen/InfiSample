@@ -176,7 +176,6 @@ function update_mat(c) { // c - index of a column
 
 function update_touchpad() {
   const touchpad_threshold = 450
-  const size_gain = 200 // how much the cicle grows with pressure
 
   const canvas = document.getElementById('tp_canvas')
   const press = document.getElementById('press')
@@ -187,7 +186,7 @@ function update_touchpad() {
 
   const posx = x / 4095 * canvas.clientWidth
   const posy = y / 4095 * canvas.clientHeight
-  const sizez = z / 4095 * size_gain
+  const sizez = z / 4095 * canvas.clientHeight / 2 // size of pressure cirle scales with the canvas/window
 
   // console.log(`x: ${posx}  y: ${posy}  z: ${sizez}`)
 
