@@ -5,8 +5,9 @@
 
   'resize.js' will resize it to always fit the screen and maintain the ratio
   */
-  --main-width: 444px;
-  --main-height: 697px;
+  --main-width: 224px;
+  --main-height: 700px;
+  /* each insole is 224 x 700 px */
 }
 
 /* To flip between left/right sole */
@@ -17,12 +18,12 @@
 
 #sole-container{  
   display: grid;
-  grid-template-columns: 50% 50%; /* LAYOUT */
+  grid-template-columns: 100%; /* LAYOUT */
   grid-template-rows: 100%; /* LAYOUT */
   gap: 0% 0%;
   grid-auto-flow: row;
   grid-template-areas:
-    "forcepad-box ."
+    "forcepad-box"
 }
 
 #sole-mask{ 
@@ -35,20 +36,22 @@
 }
 
 #sole-mask img {
-  top: -1px;
+  top: -2px;
   left: -1px;
   width: 101%;
   height: 101%;
 }
 
+
 #touchpad{
   background-image: url("imgs/bg_forcepad10x6.svg");
-  background-size: 150%;
+  background-size: 180%;
   background-repeat: repeat;
   /* background-color: aquamarine; */
   
 }
 
+/* orange press circle */
 #press{
   opacity: 0;
   width: 50px;
