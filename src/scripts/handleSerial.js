@@ -199,10 +199,12 @@ function update_touchpad() {
   press.style.left = posx - (sizez / 2)
 
   if (z > touchpad_threshold) {
+    // press.style.display = 'block'
     press.style.width = sizez
     press.style.height = sizez
     press.style.opacity = z
   } else {
+    // press.style.display = 'none'
     press.style.width = 0
     press.style.height = 0
     press.style.opacity = 0

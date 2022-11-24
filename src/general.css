@@ -47,7 +47,7 @@ html, body, .container {
 }
 
 /* CONNECT BUTTON for WebSerial */
-#serial{
+#serial * {
   z-index: 99999;
 }
 
@@ -129,10 +129,10 @@ opacity: 1
 
 /* For presentation only, no need to copy the code below */
 
-.container * {
+/* .container * {
   border: 0.1px solid grey;
   z-index: -50;
-} 
+}  */
 
 /* .container *:after {
   content:attr(class);
