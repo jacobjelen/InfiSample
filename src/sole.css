@@ -79,6 +79,22 @@
     height: 100%;
 }
 
+#flip-button{
+  border: 0px;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+
+  /* background: var(--infi-orange); */
+  width: 40px;
+  /* height: 40px; */
+}
+
+#flip-button img{
+  width: 100%;
+  top: 50%;
+}
+
 .forcepad-box { grid-area: forcepad-box; }
 
 .forcepad-label { grid-area: forcepad-label; 

@@ -59,7 +59,7 @@ html, body, .container {
 #connect{
   position:absolute;
   padding: 5px 10px;
-  margin: 10px;
+  margin: 15px;
   width: auto;
 
   font-size: clamp(13px, var(--label-font-size), 15px) ;
@@ -83,6 +83,7 @@ html, body, .container {
 }
 
 .connect-error{
+  
   color: var(--highlight-color);
   border-color: var(--highlight-color) !important;
 }
@@ -93,7 +94,7 @@ html, body, .container {
   width: clamp(100px, 100%, 300px);
 
   position:absolute;
-  margin: 10px;
+  margin: 15px;
   top: 5%;
 
   font-size: clamp(13px, var(--label-font-size), 15px) ;

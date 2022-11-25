@@ -7,12 +7,12 @@
 
 
         <!-- GRID LAYOUT HERE: grid.layoutit.com?id=FSDDXNh -->
-        
+
         <!-- <link rel="stylesheet" href="./src/sample.css"> -->
         <link rel="stylesheet" href="./src/sole.css">
-        
+
         <!-- GENERAL STYLE MUST BE INCLUDED LAST -->
-        <link rel="stylesheet" href="./src/general.css"> 
+        <link rel="stylesheet" href="./src/general.css">
 
         <!-- SCRIPTS -->
         <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
@@ -22,7 +22,7 @@
 
     <body>
         <div id="serial">
-            <div id="connect" class="connect-error" role="button"> 
+            <div id="connect" class="connect-error" role="button">
                 Connect
             </div>
             <!-- HTML !-->
@@ -47,7 +47,7 @@
         <!-- // MAIN //////////////////////////////////////////// -->
         <main id="main">
 
-            
+
             <div id="sole-container" class="container">
 
                 <div id="touchpad" class="touchpad-box bg-texture">
@@ -62,13 +62,22 @@
                     <div id="tp_canvas" class="flip-y">
                         <div id="press"></div>
                     </div>
-                    
+
                 </div>
-                
-                <!-- <div class=""></div> -->
-                <!-- POWER & LINK -->
-                
+
             </div> <!-- container  -->
+
+
+
         </main>
+
+        <div id="flip-button" onclick="flipX()" role="button">
+            <img src="src/imgs/arrows.svg">
+        </div>
+
+        <script>
+            function flipX() {document.getElementById("touchpad").classList.toggle('flip-x')}
+        </script>
+
     </body>
 </html>
