@@ -11,9 +11,14 @@
 }
 
 /* To flip between left/right sole */
-.flip{
+.flip-x{
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
+}
+
+.flip-y{
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
 }
 
 #sole-container{  
