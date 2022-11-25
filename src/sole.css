@@ -84,10 +84,8 @@
   position: absolute;
   bottom: 15px;
   left: 15px;
-
-  /* background: var(--infi-orange); */
   width: 40px;
-  /* height: 40px; */
+  cursor: pointer;
 }
 
 #flip-button img{
