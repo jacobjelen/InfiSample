@@ -93,6 +93,11 @@
   top: 50%;
 }
 
+#logging{
+  position:absolute;
+  right: 0;
+}
+
 .forcepad-box { grid-area: forcepad-box; }
 
 .forcepad-label { grid-area: forcepad-label; 

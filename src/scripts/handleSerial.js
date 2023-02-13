@@ -114,6 +114,12 @@ function process(line) {
       _model.touchpad.x = args[0];
       _model.touchpad.y = args[1];
       _model.touchpad.z = args[2];
+      
+      if (recordingOn) {
+        console.log('call log data')
+        logData()
+      }
+
       try { update_touchpad(); }
       catch (error) { console.log(error) }
       break;
@@ -180,6 +186,7 @@ function update_mat(c) { // c - index of a column
 }
 
 function update_touchpad() {
+
   const touchpad_threshold = 450
 
   const canvas = document.getElementById('tp_canvas')
@@ -253,4 +260,58 @@ function update_power() { // OK
   } else {
     document.querySelector('#power').style.stroke = 'var(--main-color)'
   }
+}
+
+/// LOG DATA ///////////
+
+const recordButton = document.getElementById("recordButton")
+const saveButton = document.getElementById("saveButton")
+const recordingFlag = document.getElementById("recordingFlag")
+let recordingOn = false
+
+const logStringDefault = "Timestamp, Position X, Position Y, Activation Z \n"
+let logString = logStringDefault
+
+recordButton.onclick = () => {
+  console.log('record button')
+ if (recordingOn){
+  recordingOn = false
+  recordButton.innerText = "Start Recording"
+ } else {
+  logString = logStringDefault
+  recordingOn = true
+  recordButton.innerText = "Stop Recording"
+ }
+}
+
+saveButton.onclick = () =>{
+  console.log('save button')
+  saveLog(logString)
+} 
+
+function logData(){
+  console.log('log data')
+  
+  logString = logString.concat(
+    `${Date.now()}, ${_model.touchpad.x}, ${_model.touchpad.y}, ${_model.touchpad.z} \n`
+  )
+
+  console.log(logString)
+}
+
+function saveLog(data){
+  // tutorial: https://www.youtube.com/watch?v=oHGnaE2BQXo
+  
+  const a = document.createElement('a')   // link element for downloading the file
+  const myBlob = new Blob([data], {type: 'text/csv'})  // file-like object
+  const url = window.URL.createObjectURL(myBlob)  // creates a link to the blob
+
+  a.href = url                      //a element point to the blob
+  a.download = "InfiSole_log.csv"   //download file name
+  a.style.display = "none"          //hide it from the user, we call it elsewhere
+  document.body.append(a)           //add to the body
+
+  a.click()
+  a.remove()
+  window.URL.revokeObjectURL(url)   //clear the blowser memory
 }

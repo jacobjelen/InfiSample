@@ -1,83 +1,93 @@
 <html>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Infi-tex Sample</title>
-        <link rel="icon" type="image/x-icon" href="/src/imgs/infi.ico">
+<head>
+    <meta charset="UTF-8">
+    <title>Infi-tex Sample</title>
+    <link rel="icon" type="image/x-icon" href="/src/imgs/infi.ico">
 
 
-        <!-- GRID LAYOUT HERE: grid.layoutit.com?id=FSDDXNh -->
+    <!-- GRID LAYOUT HERE: grid.layoutit.com?id=FSDDXNh -->
 
-        <!-- <link rel="stylesheet" href="./src/sample.css"> -->
-        <link rel="stylesheet" href="./src/sole.css">
+    <!-- <link rel="stylesheet" href="./src/sample.css"> -->
+    <link rel="stylesheet" href="./src/sole.css">
 
-        <!-- GENERAL STYLE MUST BE INCLUDED LAST -->
-        <link rel="stylesheet" href="./src/general.css">
+    <!-- GENERAL STYLE MUST BE INCLUDED LAST -->
+    <link rel="stylesheet" href="./src/general.css">
 
-        <!-- SCRIPTS -->
-        <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
-        <script src='./src/scripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
-        <script src='./src/scripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
-    </head>
+</head>
 
-    <body>
-        <div id="serial">
-            <div id="connect" class="connect-error" role="button">
-                Connect
-            </div>
-            <!-- HTML !-->
-
-            <div id="notSupported">
-                <br>
-                Please check that:
-                <ul>
-                    <li>Infi-Tex Sampler is connected to USB</li>
-                    <li>You are using <b>Chrome</b> browser</li>
-                    <li>Experimental Web Platform features are enabled here:
-                        <a
-                            href="chrome://flags/#enable-experimental-web-platform-features"
-                            target="_blank">chrome://flags/#enable-experimental-web-platform-features</a>
-                    </li>
-
-                </ul>
-            </div>
+<body>
+    <div id="serial">
+        <div id="connect" class="connect-error" role="button">
+            Connect
         </div>
+        <!-- HTML !-->
+
+        <div id="notSupported">
+            <br>
+            Please check that:
+            <ul>
+                <li>Infi-Tex Sampler is connected to USB</li>
+                <li>You are using <b>Chrome</b> browser</li>
+                <li>Experimental Web Platform features are enabled here:
+                    <a href="chrome://flags/#enable-experimental-web-platform-features"
+                        target="_blank">chrome://flags/#enable-experimental-web-platform-features</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
 
 
-        <!-- // MAIN //////////////////////////////////////////// -->
-        <main id="main">
+    <!-- // MAIN //////////////////////////////////////////// -->
+    <main id="main">
 
 
-            <div id="sole-container" class="container">
+        <div id="sole-container" class="container">
 
-                <div id="touchpad" class="touchpad-box bg-texture">
-                    <div id="sole-mask">
-                        <!-- grey mask hiding the outside of the insole -->
-                        <img src="src/imgs/sole_mask.svg" alt="">
-                    </div>
-                    <div id="sole-mask">
-                        <!-- white line around the insole -->
-                        <img src="src/imgs/sole_line.svg" alt="">
-                    </div>
-                    <div id="tp_canvas" class="flip-y">
-                        <div id="press"></div>
-                    </div>
-
+            <div id="touchpad" class="touchpad-box bg-texture">
+                <div id="sole-mask">
+                    <!-- grey mask hiding the outside of the insole -->
+                    <img src="src/imgs/sole_mask.svg" alt="">
+                </div>
+                <div id="sole-mask">
+                    <!-- white line around the insole -->
+                    <img src="src/imgs/sole_line.svg" alt="">
+                </div>
+                <div id="tp_canvas" class="flip-y">
+                    <div id="press"></div>
                 </div>
 
-            </div> <!-- container  -->
+            </div>
+
+        </div> <!-- container  -->
 
 
 
-        </main>
+    </main>
 
-        <div id="flip-button" onclick="flipX()" role="button">
-            <img src="src/imgs/arrows.svg">
+    <div id="flip-button" onclick="flipX()" role="button">
+        <img src="src/imgs/arrows.svg">
+    </div>
+
+    <div id="logging">
+        <button id="recordButton">Start Recording</button>
+        <div id="recordingFlag">
+            <h1>recording</h1>
         </div>
+        <button id="saveButton">save</button>
+    </div>
 
-        <script>
-            function flipX() {document.getElementById("touchpad").classList.toggle('flip-x')}
-        </script>
 
-    </body>
+    <!-- SCRIPTS -->
+
+    <script>
+        function flipX() { document.getElementById("touchpad").classList.toggle('flip-x') }
+    </script>
+
+    <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
+    <script src='./src/scripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
+    <script src='./src/scripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
+</body>
+
 </html>
