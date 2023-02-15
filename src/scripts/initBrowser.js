@@ -5,6 +5,7 @@ function serial_init () {
   const err = document.getElementById('notSupported')
   const main = document.getElementById('main')
   main.style.opacity = 0.3
+  document.getElementById('recordButton').classList.add('hidden')
 
   if (!'serial' in navigator) {
     err.style.display = 'block'
@@ -33,6 +34,7 @@ function serial_init () {
     err.style.display = 'none'
     // bc.innerHTML = 'Connect '
     main.style.opacity = 1
+    document.getElementById('recordButton').classList.remove('hidden')
 
     while (port.readable) {
       const reader = port.readable

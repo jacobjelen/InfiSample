@@ -277,11 +277,31 @@ recordButton.onclick = () => {
  if (recordingOn){
   recordingOn = false
   recordButton.innerText = "Start Recording"
+  recordButton.classList.remove('fade')
+  saveButton.classList.remove('hidden')
  } else {
   logString = `Recording started on ${new Date(Date.now())} \n` + logStringDefault
   recordingOn = true
-  recordButton.innerText = "Stop Recording"
+  recordButton.innerText = "Recording"
+  recordButton.classList.add('fade')
  }
+}
+
+recordButton.onmouseover = () => {
+  if (recordingOn) {
+    recordButton.innerText = "Stop Recording"
+  }
+}
+
+let isMouseOver = false
+
+recordButton.onmouseleave = () => {
+  if (!isMouseOver && recordingOn) {
+    recordButton.innerText = "Recording"
+    setTimeout(() => {
+      isMouseOver = false;
+    }, 500); // Set the throttle time to 500 milliseconds
+  }
 }
 
 saveButton.onclick = () =>{

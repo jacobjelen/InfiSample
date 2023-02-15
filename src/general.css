@@ -46,6 +46,42 @@ html, body, .container {
   position: relative;
 }
 
+.button{
+  /* position:absolute; */
+  padding: 0px 10px;
+  margin: 5px 15px;
+  width: auto;
+  color: grey;
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+  background-color: var(--bg-color);
+  /* border: solid 1px grey;
+  border-radius: 3px; */
+}
+
+.button:hover{
+  color: var(--main-color);
+  border-color: var(--main-color) !important;
+  cursor: pointer;
+}
+
+.fade {
+  animation: fade 1s infinite;
+}
+
+@keyframes fade {
+  0% {
+    color: white;
+  }
+  50% {
+    color: var(--highlight-color);
+  }
+  100% {
+    color: white;
+  }
+}
+
 /* CONNECT BUTTON for WebSerial */
 #serial * {
   z-index: 99999;
@@ -57,10 +93,10 @@ html, body, .container {
 }
 
 #connect{
-  position:absolute;
+  /* position:absolute; */
   padding: 5px 10px;
-  margin: 15px;
-  width: auto;
+  margin: 5px 15px;
+  width:fit-content;
 
   font-size: clamp(13px, var(--label-font-size), 15px) ;
   font-family: "DINPro",sans-serif;
