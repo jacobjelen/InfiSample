@@ -278,7 +278,7 @@ recordButton.onclick = () => {
   recordingOn = false
   recordButton.innerText = "Start Recording"
  } else {
-  logString = logStringDefault
+  logString = `Recording started on ${new Date(Date.now())} \n` + logStringDefault
   recordingOn = true
   recordButton.innerText = "Stop Recording"
  }
@@ -296,7 +296,7 @@ function logData(){
     `${Date.now()}, ${_model.touchpad.x}, ${_model.touchpad.y}, ${_model.touchpad.z} \n`
   )
 
-  console.log(logString)
+  console.log('Data-points logged: ' + logString.split('\n').length-3)
 }
 
 function saveLog(data){
