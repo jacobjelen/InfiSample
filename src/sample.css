@@ -71,6 +71,7 @@
 #touchpad{
   background-image: url("imgs/bg_forcepad10x6.svg");
   background-repeat: repeat;
+  background-size: 70%;
 }
 
 #press{
