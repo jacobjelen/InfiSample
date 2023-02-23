@@ -70,6 +70,7 @@
 
 #touchpad{
   background-image: url("imgs/bg_forcepad10x6.svg");
+  background-repeat: repeat;
 }
 
 #press{
@@ -132,9 +133,12 @@ z-index: 100;
 
 .forcepad-label { grid-area: forcepad-label; 
   position:relative;
-  top: -80%;
+  top: -5%;
   left: 2%;
   z-index: 100;
+  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
 }
 
 .keypad-label { grid-area: keypad-label; 

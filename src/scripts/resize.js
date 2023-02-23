@@ -4,7 +4,7 @@ window.addEventListener('resize', resizeMain)
 function resizeMain () {
   // initial size = ratio to maintain
   const contWidht = 900
-  const contHeight = 666
+  const contHeight = 900
   const multiplier = 0.9 // instead of margin. portion of the width or height filled by container
 
   const cont = document.getElementById('main')
