@@ -58,13 +58,29 @@
 
         <div class="forcepad-label label">Forcepad</div>
 
+        <div class="chart" style="border: 1px solid red;">
+            <canvas id="liveChart" width="400" height="200"></canvas>
+        </div>
     </main>
 
+
+
     <!-- SCRIPTS -->
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Include chartjs-plugin-zoom -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@latest"></script>
+<!-- Include chartjs-plugin-streaming -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@latest"></script>
+<script src="script.js"></script>
+
 
     <script src='./src/scripts/initBrowser.js'></script> <!-- sets up the DOM and Serial for browser display -->
     <script src='./src/scripts/handleSerial.js'></script> <!-- process data from serial and display in DOM -->
-    <script src='./src/scripts/resize.js'></script> <!-- scales the <main> element to always fit the window -->
+    <script src='./src/scripts/resize.js'></script>   
+    
+    <script src='./src/scripts/plot.js'></script> <!-- handles the chart -->
+
 </body>
 
 </html>

@@ -196,6 +196,8 @@ function update_touchpad() {
   const y = _model.touchpad.y
   const z = _model.touchpad.z
 
+  console.log(x, y, z)
+
   const posx = x / 4095 * canvas.clientWidth
   const posy = y / 4095 * canvas.clientHeight
   const sizez = z / 4095 * canvas.clientHeight / 2 // size of pressure cirle scales with the canvas/window
@@ -308,15 +310,21 @@ saveButton.onclick = () =>{
   console.log('save button')
   saveLog(logString)
 } 
-
-function logData(){
-  console.log('log data')
-  
+let count = 0
+function logData(){  
   logString = logString.concat(
     `${Date.now()}, ${_model.touchpad.x}, ${_model.touchpad.y}, ${_model.touchpad.z} \n`
   )
 
+  chartConfig.data.labels.push(Date.now());
+  chartConfig.data.datasets[0].data.push(_model.touchpad.x); // Random X value
+  chartConfig.data.datasets[1].data.push(_model.touchpad.y); // Random Y value
+  chartConfig.data.datasets[2].data.push(_model.touchpad.z); // Random Z value
+  liveChart.update();
+
   console.log('Data-points logged: ' + logString.split('\n').length-3)
+  count = count + 1 
+  console.log('Count: ' + count )
 }
 
 function saveLog(data){
