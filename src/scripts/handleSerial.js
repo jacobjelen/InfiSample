@@ -115,6 +115,10 @@ function process(line) {
       _model.touchpad.y = args[1];
       _model.touchpad.z = args[2];
       
+      document.getElementById(
+        "values"
+      ).innerHTML = `x: ${_model.touchpad.x}\t y: ${_model.touchpad.y}\t z: ${_model.touchpad.z}\t`; // update readout on the screen
+
       if (recordingOn) {
         console.log('call log data')
         logData()
@@ -187,7 +191,7 @@ function update_mat(c) { // c - index of a column
 
 function update_touchpad() {
 
-  const touchpad_threshold = 450
+  const touchpad_threshold = 1000
 
   const canvas = document.getElementById('tp_canvas')
   const press = document.getElementById('press')
@@ -315,6 +319,13 @@ function logData(){
   logString = logString.concat(
     `${Date.now()}, ${_model.touchpad.x}, ${_model.touchpad.y}, ${_model.touchpad.z} \n`
   )
+
+  //update graph
+  const now = Date.now();
+  chartConfig.data.datasets[0].data.push({x: now, y: _model.touchpad.x}); 
+  chartConfig.data.datasets[1].data.push({x: now, y: _model.touchpad.y}); 
+  chartConfig.data.datasets[2].data.push({x: now, y: _model.touchpad.z}); 
+  liveChart.update();
 
   console.log('Data-points logged: ' + logString.split('\n').length-3)
 }

@@ -22,21 +22,28 @@
 
 }
 
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
 /* MAIN */
 main{
   width: var(--main-width);
   height: var(--main-height);
+}
 
-  /* background: gray; */
-
+#menu-panel {
   position: absolute;
-  top: 50%; 
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  top: 15px;
+  left: 10px
 }
 
 
-html, body, .container {
+
+.container {
   height: 100%;
   width: auto;
   margin: 0;
@@ -52,7 +59,7 @@ html, body, .container {
   margin: 5px 15px;
   width: auto;
   color: grey;
-  font-size: clamp(13px, var(--label-font-size), 15px) ;
+  font-size: clamp(13px, var(--label-font-size), 16px) ;
   font-family: "DINPro",sans-serif;
   font-weight: 400;
   background-color: var(--bg-color);
@@ -94,7 +101,7 @@ html, body, .container {
 
 #connect{
   /* position:absolute; */
-  padding: 5px 10px;
+  padding: 5px 15px;
   margin: 5px 15px;
   width:fit-content;
 
@@ -131,14 +138,15 @@ html, body, .container {
 
   position:absolute;
   margin: 15px;
-  top: 5%;
+  top: 30px;
+  left: 15px;
 
   font-size: clamp(13px, var(--label-font-size), 15px) ;
   /* background-color: grey; */
 }
 
 #notSupported li{
-  margin: 10px 0px
+  margin: 15px 15px
 }
 
 
@@ -162,7 +170,14 @@ opacity: 1
   background-size: 100% 100%;
 }
 
-
+#values{
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: clamp(16px, var(--label-font-size), 24px) ;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+}
 
 /* For presentation only, no need to copy the code below */
 
