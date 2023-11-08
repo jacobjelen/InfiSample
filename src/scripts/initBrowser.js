@@ -46,7 +46,9 @@ function serial_init () {
         while (true) {
           const { value, done } = await reader.read()
           if (value) {
-            process(value)
+            // console.log(value)
+            // process(value)
+            process_for_datalogger(value)
           }
           if (done) {
             port.close()

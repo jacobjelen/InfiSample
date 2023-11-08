@@ -27,7 +27,10 @@ class LineBreakTransformer {
     this.container += chunk
     const lines = this.container.split('\r\n')
     this.container = lines.pop()
-    lines.forEach(line => controller.enqueue(line))
+    lines.forEach(line => {
+      // console.log(line)
+      controller.enqueue(line)
+    })
   }
 
   flush(controller) {
@@ -144,6 +147,18 @@ function process(line) {
   }
 }
 
+function process_for_datalogger(line){ // line looks like this: 1365002#4089,4089,7,0; timestamp#value,value,value,value;
+
+  // PARSING
+  input = line.split('#')  // split timestamp from values => ['1365002',4089,4089,7,0;]
+  timestamp = input[0].replace(';','') //remove ; from the end of the values' string
+  values = input[1].split(',')
+  console.log(timestamp, values)
+
+  // CALCS
+  
+}
+
 // ELEMENT UPDATE FUNCTIONS //////////////////////////////////
 let max = 0
 let maxlog = 0
@@ -220,7 +235,6 @@ function update_touchpad() {
     press.style.height = 0
     press.style.opacity = 0
   }
-
 }
 
 function update_keypad() { // OK
