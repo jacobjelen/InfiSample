@@ -38,6 +38,8 @@ class LineBreakTransformer {
   }
 }
 
+
+
 // scale a value from one range to another. 
 function convertRange(value, inMin, inMax, outMin, outMax) {
   const result = (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
@@ -120,7 +122,7 @@ function process(line) {
       
       document.getElementById(
         "values"
-      ).innerHTML = `x: ${_model.touchpad.x}\t y: ${_model.touchpad.y}\t z: ${_model.touchpad.z}\t`; // update readout on the screen
+      ).innerHTML = `x: ${parseInt(_model.touchpad.x)} \t y: ${parseInt(_model.touchpad.y)} \t z: ${parseInt(_model.touchpad.z)} `; // update readout on the screen
 
       if (recordingOn) {
         console.log('call log data')
@@ -150,12 +152,53 @@ function process(line) {
 function process_for_datalogger(line){ // line looks like this: 1365002#4089,4089,7,0; timestamp#value,value,value,value;
 
   // PARSING
+  line = line.replace(';','') //remove ;
   input = line.split('#')  // split timestamp from values => ['1365002',4089,4089,7,0;]
-  timestamp = input[0].replace(';','') //remove ; from the end of the values' string
-  values = input[1].split(',')
-  console.log(timestamp, values)
+  timestamp = input[0] 
+  raw = input[1].split(',')
+  // console.log(timestamp, raw)
+  // console.log(`${raw[0]-raw[2]} ; ${raw[1]-raw[3]}`)
 
   // CALCS
+  // % Calculate the activation levels:
+  act1 = raw[2] + raw[3];
+  act2 = (4095 - raw[0]) + (4095 - raw[1]);
+
+  // % Calculate the directional differentials:
+  ydir = raw[0] - raw[1];
+  xdir = raw[2] - raw[3];
+
+  // % Calculate sensed locations
+  // x = 2047 + ( (xdir * 28000) / act1 );
+  // y = 2047 + ( (ydir * 59200) / act1 );
+  
+  // insole
+  x = ( 20 + (xdir * 28000) / act1 );
+  y = ( 20 + (ydir * 59200) / act1 );
+
+  console.log(`X: ${Math.round(x)} \t Y: ${Math.round(y)} \t Z: ${Math.round(act1)} ; ${Math.round(act2)}`)
+
+  // UPDATE UI
+  if (document.getElementById('touchpad') === null) return
+
+  _model.touchpad.x = x;
+  _model.touchpad.y = y;
+  _model.touchpad.z = act2;
+  
+  value_readout =  document.getElementById("values")
+  if(_model.touchpad.z > 100){
+    value_readout.innerHTML = `x: ${parseInt(_model.touchpad.x)} <br> y: ${parseInt(_model.touchpad.y)} <br> z: ${parseInt(_model.touchpad.z)} `; // update readout on the screen
+  } else {
+    value_readout.innerHTML = `x: <br> y: <br> z: `; // update readout on the screen
+  }
+  
+  if (recordingOn) {
+    console.log('call log data')
+    logData()
+  }
+
+  try { update_touchpad(); }
+  catch (error) { console.log(error) }
   
 }
 
@@ -206,7 +249,7 @@ function update_mat(c) { // c - index of a column
 
 function update_touchpad() {
 
-  const touchpad_threshold = 1000
+  const touchpad_threshold = 100
 
   const canvas = document.getElementById('tp_canvas')
   const press = document.getElementById('press')
@@ -215,8 +258,9 @@ function update_touchpad() {
   const y = _model.touchpad.y
   const z = _model.touchpad.z
 
-  const posx = x / 4095 * canvas.clientWidth
-  const posy = y / 4095 * canvas.clientHeight
+  // position value / maximum posible value
+  const posx = x / 40 * canvas.clientWidth
+  const posy = y / 40 * canvas.clientHeight
   const sizez = z / 4095 * canvas.clientHeight / 2 // size of pressure cirle scales with the canvas/window
   // console.log(`x: ${posx}  y: ${posy}  z: ${sizez}`)
 
