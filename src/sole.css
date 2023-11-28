@@ -65,10 +65,20 @@
   top: 35px;
   left: 595px;
   
-  
   background-color: var(--highlight-color);
   border-radius: 50%;
   z-index: -10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#point{
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: white;
 }
 
 
