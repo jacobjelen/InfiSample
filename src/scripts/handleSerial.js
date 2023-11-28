@@ -159,14 +159,22 @@ function calculate_xyz(data, verbose = false) {
 function process_for_datalogger(line) {
   // line looks like this: 1365002#4089,4089,7,0; timestamp#value,value,value,value;
 
+  let clean, smooth
+
   // PARSING
-  line = line.replace(";", ""); //remove ;
-  const input = line.split("#"); // split timestamp from values => ['1365002',4089,4089,7,0;]
-  const timestamp = input[0];
-  const raw = input[1].split(",");
-  const clean = validateRawData(raw);
-  if (clean) movingAverage.add(clean); // ad new clean data to smooth
-  const smooth = movingAverage.getAverage();
+  try {
+    line = line.replace(";", ""); //remove ;
+    const input = line.split("#"); // split timestamp from values => ['1365002',4089,4089,7,0;]
+    // const timestamp = input[0];
+    const raw = input[1].split(",");
+    clean = validateRawData(raw);
+    if (clean) movingAverage.add(clean); // ad new clean data to smooth
+    smooth = movingAverage.getAverage();
+  } catch (error) {
+    console.log(error)
+    return
+  }
+  
 
   if (smooth.length !== 4) return; // don't do anything if there's no data in smooth
 
