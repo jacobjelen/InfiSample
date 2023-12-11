@@ -81,11 +81,10 @@
   position:relative;
   top: 35px;
   left: 595px;
-  
-  
+
   background-color: var(--highlight-color);
   border-radius: 50%;
-  z-index: -10;
+  z-index: 10;
 }
 
 

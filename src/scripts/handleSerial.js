@@ -109,9 +109,6 @@ class MovingAverageArray {
 
 const movingAverage = new MovingAverageArray(20, 4); // For arrays of length 4, averaging over the last 5 values
 
-const xoff = 8000
-const yoff = 10000
-
 function calculate_xyz(data, verbose = false) {
   
   // % Calculate the activation levels:
@@ -126,11 +123,13 @@ function calculate_xyz(data, verbose = false) {
         //  in raw values it's 20 both for x and y
         // for clean it's 8000 for x and 10000 for y
   //  28000 and 59200 represent a ratio of natural resistances of the insole in x and y directions
-  const x = xoff + (xdir * 28000) / act1;
-  const y = yoff + (ydir * 59200) / act1;
+  const x = (xdir * 28000) / act1;
+  const y = (ydir * 28000) / act1;
 
-  const x_out = convertRange(x,0,16000,0,1000).toFixed(0)
-  const y_out = convertRange(y,0,20000,0,1000).toFixed(0)
+  const x_out = convertRange(x,-14,10,0,1000).toFixed(0)
+  const y_out = convertRange(y,-18,18,0,1000).toFixed(0)
+
+  console.log(y_out)
 
   if (verbose) {
     // console.log(data);
@@ -140,17 +139,14 @@ function calculate_xyz(data, verbose = false) {
     // console.log(`ACT1: ${Math.round(act1)}`);
     // console.log(`ACT2: ${Math.round(act1)}`);
 
-    // // console.log(`YDIR: ${data[0]} - ${data[1]} = ${Math.round(ydir)}`)
-    // // console.log(`XDIR: ${data[2]} - ${data[3]} = ${Math.round(xdir)}`)
+    // console.log(`YDIR: ${data[0]} - ${data[1]} = ${Math.round(ydir)}`)
+    // console.log(`XDIR: ${data[2]} - ${data[3]} = ${Math.round(xdir)}`)
     // console.log(`YDIR: ${Math.round(ydir)}`);
     // console.log(`XDIR: ${Math.round(xdir)}`);
 
     // console.log(`Y: ${Math.round(y)}`);
     // console.log(`X: ${Math.round(x)}`);
   }
-
-  // console.log(`X: ${Math.round(x)} \t Y: ${Math.round(y)} \t Z: ${Math.round(act1)} ; ${Math.round(act2)}`)
-  console.log(`${x_out}, ${y_out},${act2},`)
   
   return [x_out, y_out, act2];
 }
@@ -159,14 +155,15 @@ function calculate_xyz(data, verbose = false) {
 function process_for_datalogger(line) {
   // line looks like this: 1365002#4089,4089,7,0; timestamp#value,value,value,value;
 
-  let clean, smooth
+  let raw, clean, smooth
 
   // PARSING
   try {
     line = line.replace(";", ""); //remove ;
     const input = line.split("#"); // split timestamp from values => ['1365002',4089,4089,7,0;]
     // const timestamp = input[0];
-    const raw = input[1].split(",");
+    raw = input[1].split(",");
+    // console.log(raw)
     clean = validateRawData(raw);
     if (clean) movingAverage.add(clean); // ad new clean data to smooth
     smooth = movingAverage.getAverage();
@@ -191,7 +188,7 @@ function process_for_datalogger(line) {
   // UPDATE UI
   if (document.getElementById("touchpad") === null) return;
 
-  const vals = calculate_xyz(smooth,true);
+  const vals = calculate_xyz(raw,true);
 
   _model.touchpad.x = vals[0];
   _model.touchpad.y = vals[1];
