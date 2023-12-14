@@ -30,6 +30,7 @@ function serial_init() {
       return;
     }
 
+    
     bc.className = "connect-ok";
     err.style.display = "none";
     bc.innerHTML = 'Connect '

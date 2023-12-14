@@ -162,6 +162,15 @@ opacity: 1
   background-size: 100% 100%;
 }
 
+#values{
+  position: absolute;
+  left: 25px;
+  bottom: 30px;
+
+  font-size: 16px;
+  font-family: "DINPro",sans-serif;
+  font-weight: 400;
+}
 
 
 /* For presentation only, no need to copy the code below */
