@@ -24,8 +24,11 @@
 
 /* MAIN */
 main{
-  width: var(--main-width);
-  height: var(--main-height);
+  /* width: var(--main-width);
+  height: var(--main-height); */
+
+  height: 90%;
+  aspect-ratio: 1 / 1;
 
   /* background: gray; */
 
@@ -34,7 +37,6 @@ main{
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
-
 
 html, body, .container {
   height: 100%;
@@ -131,7 +133,7 @@ html, body, .container {
 
   position:absolute;
   margin: 15px;
-  top: 5%;
+   p: 5%;
 
   font-size: clamp(13px, var(--label-font-size), 15px) ;
   /* background-color: grey; */
