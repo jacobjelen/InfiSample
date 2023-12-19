@@ -1,22 +1,9 @@
 // DATA MODEL
-
 const _model = {
-  slider: 0,
-  keypad: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   touchpad: { x: 0, y: 0, z: 0 },
-  mat: [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ],
-  power: false,
 };
 
 // CUSTOM CLASSES & FUNCTIONS //
-
 // defines a stream processor which extracts lines of text delimited by '\r\n'
 class LineBreakTransformer {
   constructor() {
@@ -38,26 +25,6 @@ class LineBreakTransformer {
   }
 }
 
-// check that all the datalogger values are numbers in the expected range 0 - 4095. return Integer array or false
-function validateRawData(arr) {
-  // return False if the array length isn't 4
-  if (arr.length !== 4) {
-    return false;
-  }
-
-  // Convert strings to integer or NaN if conversion fails
-  const convertedArray = arr.map((str) => {
-    const num = parseInt(str, 10);
-    return isNaN(num) ? NaN : num;
-  });
-
-  // check that all values are numbers in the correct range 0 - 4095
-  const isValid = convertedArray.every((num) => num >= 0 && num <= 4095);
-
-  // Return a new array of integers or false
-  return isValid ? convertedArray : false;
-}
-
 // scale a value from one range to another.
 function convertRange(value, inMin, inMax, outMin, outMax) {
   const result =
@@ -71,10 +38,6 @@ function convertRange(value, inMin, inMax, outMin, outMax) {
 
   return result;
 }
-
-function rnd2(n) {
-  return Math.round(n * 100) / 100;
-} //round down to 2 decimals
 
 class MovingAverageArray {
   // sampleSize is how many values the average will be calculated from
@@ -109,11 +72,7 @@ class MovingAverageArray {
 
 const movingAverage = new MovingAverageArray(20, 4); // For arrays of length 4, averaging over the last 5 values
 
-const xoff = 8000
-const yoff = 10000
-
 function calculate_xyz(data, verbose = false) {
-  
   // % Calculate the activation levels:
   const act1 = data[2] + data[3];
   const act2 = 4095 - data[0] + (4095 - data[1]);
@@ -122,79 +81,71 @@ function calculate_xyz(data, verbose = false) {
   const ydir = data[0] - data[1];
   const xdir = data[2] - data[3];
 
-  // insole - the first number is the actual reading when the insole is pressed at the edges. we want to display the press there.
-        //  in raw values it's 20 both for x and y
-        // for clean it's 8000 for x and 10000 for y
-  //  28000 and 59200 represent a ratio of natural resistances of the insole in x and y directions
-  const x = xoff + (xdir * 28000) / act1;
-  const y = yoff + (ydir * 59200) / act1;
-
-  const x_out = convertRange(x,0,16000,0,1000).toFixed(0)
-  const y_out = convertRange(y,0,20000,0,1000).toFixed(0)
+  // 28000 and 59200 represent a ratio of natural resistances of the sensor in x and y directions
+  const x = (xdir * 28000) / act1;
+  const y = (ydir * 59200) / act1;
 
   if (verbose) {
     // console.log(data);
 
-    // // console.log(`ACT1: ${data[2]} + ${data[3]} = ${Math.round(act1)}`)
-    // // console.log(`ACT2: (4095 - ${data[0]}) + (4095 - ${data[1]}) = ${Math.round(act1)}`)
+    console.log(`ACT1: ${data[2]} + ${data[3]} = ${Math.round(act1)}`);
+    console.log(
+      `ACT2: (4095 - ${data[0]}) + (4095 - ${data[1]}) = ${Math.round(act1)}`
+    );
     // console.log(`ACT1: ${Math.round(act1)}`);
     // console.log(`ACT2: ${Math.round(act1)}`);
 
-    // // console.log(`YDIR: ${data[0]} - ${data[1]} = ${Math.round(ydir)}`)
-    // // console.log(`XDIR: ${data[2]} - ${data[3]} = ${Math.round(xdir)}`)
-    // console.log(`YDIR: ${Math.round(ydir)}`);
-    // console.log(`XDIR: ${Math.round(xdir)}`);
+    console.log(`YDIR: ${data[0]} - ${data[1]} = ${Math.round(ydir)}`);
+    console.log(`XDIR: ${data[2]} - ${data[3]} = ${Math.round(xdir)}`);
+    console.log(`YDIR: ${Math.round(ydir)}`);
+    console.log(`XDIR: ${Math.round(xdir)}`);
 
-    // console.log(`Y: ${Math.round(y)}`);
-    // console.log(`X: ${Math.round(x)}`);
+    console.log(`Y: ${Math.round(y)}`);
+    console.log(`X: ${Math.round(x)}`);
   }
 
-  // console.log(`X: ${Math.round(x)} \t Y: ${Math.round(y)} \t Z: ${Math.round(act1)} ; ${Math.round(act2)}`)
-  console.log(`${x_out}, ${y_out},${act2},`)
-  
-  return [x_out, y_out, act2];
+  // Real Measured insole value range: X: -8000 - 7400; Y: -10150 - 10150 
+  return [x, y, act2];
 }
 
 // PROCESS // a line received over serial
 function process_for_datalogger(line) {
   // line looks like this: 1365002#4089,4089,7,0; timestamp#value,value,value,value;
 
-  let clean, smooth
+  let timestamp, raw, smooth;
 
   // PARSING
   try {
     line = line.replace(";", ""); //remove ;
     const input = line.split("#"); // split timestamp from values => ['1365002',4089,4089,7,0;]
-    // const timestamp = input[0];
-    const raw = input[1].split(",");
-    clean = validateRawData(raw);
-    if (clean) movingAverage.add(clean); // ad new clean data to smooth
-    smooth = movingAverage.getAverage();
+    timestamp = input[0];
+
+    raw = input[1].split(",").map((str) => {    
+      let parsed = parseInt(str);                         //turn strings into ints and c
+      return isNaN(parsed) ? null : parsed;               //if the string is not a number, replace with null
+    });
+
+    //checks
+    if (raw.length !== 4 || raw.includes(null)) return;   // is it 4 ints?
+    if( raw.every((num) => num >= 0 && num <= 4095) ){    // are the ints in the range 0 - 4095?
+      movingAverage.add(raw);                             // then include the numbers in average
+      smooth = movingAverage.getAverage();
+    } else return
+
   } catch (error) {
-    console.log(error)
-    return
+    console.log(error);
+    return;
   }
-  
 
-  if (smooth.length !== 4) return; // don't do anything if there's no data in smooth
-
-  // console.log("---raw---");
-  // console.log(timestamp, raw, calculate_xyz(raw,flase));
-  // console.log("---clean---");
-  // console.log(timestamp, clean, calculate_xyz(clean, true));
-  // console.log("---smooth---");
-  // console.log(timestamp, smooth, calculate_xyz(smooth, false));
-  // console.log("=======================");
-
-  // return;
+  if (smooth.length !== 4) return;                        // don't do anything if there's no data in smooth
 
   // UPDATE UI
   if (document.getElementById("touchpad") === null) return;
 
-  const vals = calculate_xyz(smooth,true);
+  const vals = calculate_xyz(smooth);
 
-  _model.touchpad.x = vals[0];
-  _model.touchpad.y = vals[1];
+  _model.touchpad.x = convertRange(vals[0], -8000, 7400, 0, 1000).toFixed(0);;
+  _model.touchpad.y = convertRange(vals[1], -10150, 10150, 0, 1000).toFixed(0);;
   _model.touchpad.z = vals[2];
 
   if (recordingOn) {
@@ -210,54 +161,7 @@ function process_for_datalogger(line) {
   }
 }
 
-// ELEMENT UPDATE FUNCTIONS //////////////////////////////////
-let max = 0;
-let maxlog = 0;
-function update_mat(c) {
-  // c - index of a column
-  // console.log(_model.mat)
-
-  const mat_gain = 6;
-
-  for (let i = 0; i < 6; i++) {
-    const d = document.getElementById("mat_L" + i + "C" + c);
-    const x = _model.mat[i][c];
-
-    // if (i== 0 && c==0){
-    if (x > max) {
-      max = x;
-    } // remember maximum measured value
-
-    // OPACITY A: 0 up to threshod, then linear mulitplied by gain value
-    // d.style.opacity = x > mat_threshold ? (x / 255) * mat_gain : 0
-
-    // OPACITY B: binary =>100% over threhold
-    // d.style.opacity = x > mat_threshold ? 1 : 0
-
-    // OPACITY C: log 106*(0.7+log10(x/5))
-    // const log = 106*(0.7+Math.log10(x/5)) // 255
-    // if (log > maxlog){ maxlog = log} // remember maximum measured value
-    // const converted = convertRange(log, 225, 240, 0, 1)
-    // console.log(`[${i},${c}]  raw: ${x} \t log: ${rnd2(log)}  \t maxlog: ${rnd2(maxlog)}`)
-    // d.style.opacity = converted
-    // d.innerText = rnd2(d.style.opacity)
-
-    // OPACITY D: RAW => CONVERT => LOG
-    const mat_threshold = 50; // anything below is considered noise and is ignored
-    const mat_cutoff = 200; // considered as maximum value that can be achieved by pressure
-
-    const converted = convertRange(x, mat_threshold, mat_cutoff, 1, 255); // raw between treshold and cutoff scaled to 0-255
-    const log = (106 * (0.7 + Math.log10(converted / 5))) / 255; // plots converted values logarithmically between 0 and 1
-
-    d.style.opacity = log;
-    d.innerText = Math.round(log * 100) / 100;
-
-    // console.log(`[${i},${c}]  raw: ${x} :\t conv: ${rnd2(converted)} :\t log: ${rnd2(log)}  :\t max: ${max}`)
-
-    // } // test if 0,0
-  }
-}
-
+// ELEMENT UPDATE FUNCTIONS /////////////////////////////////
 function update_touchpad() {
   const touchpad_threshold = 100;
 
@@ -291,7 +195,7 @@ function update_touchpad() {
   }
 }
 
-function update_readout(){
+function update_readout() {
   value_readout = document.getElementById("values");
   if (_model.touchpad.z > 100) {
     value_readout.innerHTML = `x: ${parseInt(
