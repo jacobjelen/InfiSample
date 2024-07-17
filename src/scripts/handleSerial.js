@@ -110,7 +110,7 @@ function calculate_xyz(data, verbose = false) {
 // PROCESS // a line received over serial
 function process_for_datalogger(line) {
   // line looks like this: 1365002#4089,4089,7,0; timestamp#value,value,value,value;
-
+  console.log(line)
   let timestamp, raw, smooth;
 
   // PARSING
